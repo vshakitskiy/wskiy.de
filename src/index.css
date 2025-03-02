@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Monocraft";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/monocraft.ttf") format("truetype");
+}
+
+@theme {
+  --font-monocraft: "Monocraft", monospace;
+
+  --breakpoint-xl: 90rem;
+  --breakpoint-max-px: 1440px;
+
+  --color-background: #101010;
+  --color-primary: #ffc799;
+  --color-text: #ffffff;
+  --color-secondary: #a0a0a0;
+  --color-selection: #232323;
+}
+
+@layer base {
+  html,
+  body,
+  #app {
+    @apply bg-background text-text font-monocraft;
+  }
+
+  .base-text {
+    @apply text-pretty text-sm sm:text-base lg:text-lg xl:text-xl;
+  }
+}
