@@ -1,3 +1,4 @@
+import officecato from "./assets/officecato.jpg"
 import {
   TypescriptIcon,
   TailwindcssIcon,
@@ -92,7 +93,7 @@ export const App = () => {
       <div className="max-w-screen-max-px mx-auto px-3 sm:px-6">
         {/* // TODO &->components/hero */}
         <section className="mt-5 flex flex-col sm:flex-row sm:items-end sm:gap-8">
-          <img src="/officecato.jpg" className="rounded-lg w-30 sm:w-40 md:w-50 lg:w-60 xl:w-70" alt="office cat'o" />
+          <img src={officecato} className="rounded-lg w-30 sm:w-40 md:w-50 lg:w-60 xl:w-70" alt="office cat'o" />
           <div>
             <h1 className="mt-2 text-4xl font-bold sm:text-5xl lg:text-6xl xl:text-7xl">WISKIY</h1>
             <h3 className="text-secondary font-medium sm:text-lg lg:text-xl xl:text-2xl">
