@@ -29,8 +29,8 @@ export const LetterGlitch = ({
   const context = useRef<CanvasRenderingContext2D | null>(null)
   const lastGlitchTime = useRef(Date.now())
 
-  const fontSize = 16
-  const charWidth = 10
+  const fontSize = 10
+  const charWidth = 8
   const charHeight = 20
 
   const lettersAndSymbols = [
@@ -179,7 +179,7 @@ export const LetterGlitch = ({
     const ctx = context.current
     const { width, height } = canvasRef.current!.getBoundingClientRect()
     ctx.clearRect(0, 0, width, height)
-    ctx.font = `${fontSize}px monospace`
+    ctx.font = `${fontSize}px monocraft`
     ctx.textBaseline = "top"
 
     letters.current.forEach((letter, index) => {
