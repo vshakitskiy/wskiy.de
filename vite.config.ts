@@ -17,7 +17,8 @@ export default defineConfig({
     alias: {
       "@": "/src",
       "@data": "/src/data",
-      "@components": "/src/components"
+      "@components": "/src/components",
+      "@assets": "/src/assets"
     }
   }
 })
