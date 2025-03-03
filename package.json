@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.9",
+    "@types/bun": "^1.2.4",
     "preact": "^10.26.2",
     "tailwindcss": "^4.0.9"
   },

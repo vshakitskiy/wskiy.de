@@ -8,8 +8,17 @@
   src: url("/monocraft.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Desyrel";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/desyrel.ttf") format("truetype");
+}
+
 @theme {
   --font-monocraft: "Monocraft", monospace;
+  --font-desyrel: "Desyrel", cursive;
 
   --breakpoint-xl: 90rem;
   --breakpoint-max-px: 1440px;
@@ -25,7 +34,7 @@
   html,
   body,
   #app {
-    @apply bg-background text-text font-monocraft;
+    @apply bg-background text-text font-monocraft h-full;
   }
 
   .base-text {
