@@ -12,6 +12,12 @@ export const App = () => {
       <div className="relative z-1 flex flex-col h-full">
         <div className="bg-[#3a2813] border-2 border-dashed border-[#6c4a24] fixed w-full z-2" />
         <div className="max-w-screen-max-px mx-auto px-3 sm:px-6 flex-1 mt-4">
+          <header className="bg-[#3a281399] border-2 border-dashed border-[#6c4a24] rounded-md px-3 sm:px-6">
+            <p className="base-text text-center">
+              island header soon {country?.emoji}👋
+            </p>
+          </header>
+
           <Hero />
           <About />
           <Technologies />
@@ -39,9 +45,6 @@ export const App = () => {
               WIP/v0/4
             </p>
           </div>
-          <p className="base-text text-end text-secondary">
-            {country?.emoji}👋
-          </p>
         </footer>
       </div>
     </div>

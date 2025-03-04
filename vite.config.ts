@@ -17,6 +17,7 @@ export default defineConfig({
   ],
   server: {
     port: 3000,
+    // TODO: build api for communication
     proxy: {
       "/api/ipdata": {
         target: "https://api.ipdata.co",

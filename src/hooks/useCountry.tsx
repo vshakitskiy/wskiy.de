@@ -14,6 +14,10 @@ type Country = {
   emoji: string
 }
 
+const url = import.meta.env.PROD
+  ? `https://api.ipdata.co?api-key=${import.meta.env.VITE_IPDATA_API_KEY}`
+  : "/api/ipdata"
+
 const useCountry = () => {
   const [cookies, setCookie] = useCookies(["country"])
   const [country, setCountry] = useState<Country | null>(null)
@@ -26,7 +30,7 @@ const useCountry = () => {
       }
 
       axios
-        .get<CountryData>("/api/ipdata")
+        .get<CountryData>(url)
         .then((res) => {
           const data: Country = {
             code: res.data.country_code,
