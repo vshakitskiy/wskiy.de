@@ -83,7 +83,7 @@ const technologies = [
 export const Technologies = () => {
   return (
     <section className="mt-8">
-      <h2 className="text-2xl font-bold">Technologies</h2>
+      <h2 className="text-2xl md:text-3xl font-bold">Technologies</h2>
       <p className="base-text mt-4">Mostly used technologies so far (non-accurate <span className="text-primary">essential</span> list):</p>
       <div className="flex flex-wrap mt-4 gap-1">
         {technologies.map((technology) => (

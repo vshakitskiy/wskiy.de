@@ -1,3 +1,3 @@
 import { SVGProps, FC } from "react"
 
-export type IconFC = FC<SVGProps<SVGSVGElement>>
+export type SvgFC = FC<SVGProps<SVGSVGElement>>

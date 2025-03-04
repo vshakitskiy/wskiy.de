@@ -1,20 +1,27 @@
 import { useRef, useEffect } from "react"
 
-export const LetterGlitch = ({
-  glitchColors = ["#2b4539", "#61dca3", "#61b3dc"],
-  glitchSpeed = 50,
-  centerVignette = false,
-  outerVignette = true,
-  smooth = true,
-  className = "",
-}: {
+type LetterGlitchProps = {
   glitchColors: string[]
   glitchSpeed: number
   centerVignette: boolean
   outerVignette: boolean
   smooth: boolean
   className?: string
-}) => {
+  charWidth?: number
+  charHeight?: number
+  fontSize?: number
+}
+export const LetterGlitch = ({
+  glitchColors,
+  glitchSpeed,
+  centerVignette,
+  outerVignette,
+  smooth,
+  className = "",
+  charWidth = 8,
+  charHeight = 20,
+  fontSize = 10,
+}: LetterGlitchProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const animationRef = useRef<number | null>(null)
   const letters = useRef<
@@ -29,123 +36,13 @@ export const LetterGlitch = ({
   const context = useRef<CanvasRenderingContext2D | null>(null)
   const lastGlitchTime = useRef(Date.now())
 
-  const fontSize = 10
-  const charWidth = 8
-  const charHeight = 20
-
-  const lettersAndSymbols = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-    "!",
-    "@",
-    "#",
-    "$",
-    "&",
-    "*",
-    "(",
-    ")",
-    "-",
-    "_",
-    "+",
-    "=",
-    "/",
-    "[",
-    "]",
-    "{",
-    "}",
-    ";",
-    ":",
-    "<",
-    ">",
-    ",",
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-  ]
-
-  const getRandomChar = () => {
-    return lettersAndSymbols[
-      Math.floor(Math.random() * lettersAndSymbols.length)
-    ]
-  }
-
-  const getRandomColor = () => {
-    return glitchColors[Math.floor(Math.random() * glitchColors.length)]
-  }
-
-  const hexToRgb = (hex: string) => {
-    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
-    hex = hex.replace(shorthandRegex, (r, g, b) => {
-      return r + r + g + g + b + b
-    })
-
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-    return result
-      ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16),
-      }
-      : null
-  }
-
-  const interpolateColor = (
-    start: { r: number; g: number; b: number },
-    end: { r: number; g: number; b: number },
-    factor: number,
-  ) => {
-    const result = {
-      r: Math.round(start.r + (end.r - start.r) * factor),
-      g: Math.round(start.g + (end.g - start.g) * factor),
-      b: Math.round(start.b + (end.b - start.b) * factor),
-    }
-    return `rgb(${result.r}, ${result.g}, ${result.b})`
-  }
-
-  const calculateGrid = (width: number, height: number) => {
-    const columns = Math.ceil(width / charWidth)
-    const rows = Math.ceil(height / charHeight)
-    return { columns, rows }
-  }
-
   const initializeLetters = (columns: number, rows: number) => {
     grid.current = { columns, rows }
     const totalLetters = columns * rows
     letters.current = Array.from({ length: totalLetters }, () => ({
       char: getRandomChar(),
-      color: getRandomColor(),
-      targetColor: getRandomColor(),
+      color: getRandomColor(glitchColors),
+      targetColor: getRandomColor(glitchColors),
       colorProgress: 1,
     }))
   }
@@ -169,7 +66,7 @@ export const LetterGlitch = ({
       context.current.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
 
-    const { columns, rows } = calculateGrid(rect.width, rect.height)
+    const { columns, rows } = calculateGrid(rect.width, charWidth, rect.height, charHeight)
     initializeLetters(columns, rows)
     drawLetters()
   }
@@ -191,16 +88,16 @@ export const LetterGlitch = ({
   }
 
   const updateLetters = () => {
-    if (!letters.current || letters.current.length === 0) return // Prevent accessing empty array
+    if (!letters.current || letters.current.length === 0) return
 
     const updateCount = Math.max(1, Math.floor(letters.current.length * 0.05))
 
     for (let i = 0; i < updateCount; i++) {
       const index = Math.floor(Math.random() * letters.current.length)
-      if (!letters.current[index]) continue // Skip if index is invalid
+      if (!letters.current[index]) continue
 
       letters.current[index].char = getRandomChar()
-      letters.current[index].targetColor = getRandomColor()
+      letters.current[index].targetColor = getRandomColor(glitchColors)
 
       if (!smooth) {
         letters.current[index].color = letters.current[index].targetColor
@@ -277,18 +174,63 @@ export const LetterGlitch = ({
       cancelAnimationFrame(animationRef.current!)
       window.removeEventListener("resize", handleResize)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [glitchSpeed, smooth])
 
   return (
     <div className={`h-full w-full overflow-hidden bg-background ${className}`}>
       <canvas ref={canvasRef} className="block h-full w-full" />
       {outerVignette && (
-        <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(circle,_rgba(0,0,0,0)_50%,_rgba(0,0,0,1)_100%)]"></div>
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(circle,_rgba(0,0,0,0)_50%,_rgba(0,0,0,1)_100%)]" />
       )}
       {centerVignette && (
-        <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(circle,_rgba(0,0,0,0.8)_0%,_rgba(0,0,0,0)_100%)]"></div>
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(circle,_rgba(0,0,0,0.8)_0%,_rgba(0,0,0,0)_100%)]" />
       )}
     </div>
   )
+}
+
+const lettersAndSymbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=\/[]{};<>,.0123456789".split("")
+const getRandomChar = () => {
+  return lettersAndSymbols[
+    Math.floor(Math.random() * lettersAndSymbols.length)
+  ]
+}
+
+const getRandomColor = (glitchColors: string[]) => {
+  return glitchColors[Math.floor(Math.random() * glitchColors.length)]
+}
+
+const hexToRgb = (hex: string) => {
+  const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
+  hex = hex.replace(shorthandRegex, (r, g, b) => {
+    return r + r + g + g + b + b
+  })
+
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+  return result
+    ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16),
+    }
+    : null
+}
+
+const interpolateColor = (
+  start: { r: number; g: number; b: number },
+  end: { r: number; g: number; b: number },
+  factor: number,
+) => {
+  const result = {
+    r: Math.round(start.r + (end.r - start.r) * factor),
+    g: Math.round(start.g + (end.g - start.g) * factor),
+    b: Math.round(start.b + (end.b - start.b) * factor),
+  }
+  return `rgb(${result.r}, ${result.g}, ${result.b})`
+}
+
+const calculateGrid = (width: number, charWidth: number, height: number, charHeight: number) => {
+  const columns = Math.ceil(width / charWidth)
+  const rows = Math.ceil(height / charHeight)
+  return { columns, rows }
 }

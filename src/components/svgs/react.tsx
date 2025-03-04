@@ -1,6 +1,6 @@
-import { IconFC } from "./icons"
+import { SvgFC } from "./icons"
 
-export const ReactIcon: IconFC = ({ ...props }) => {
+export const ReactIcon: SvgFC = ({ ...props }) => {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <circle cx="12" cy="11.245" r="1.785" />

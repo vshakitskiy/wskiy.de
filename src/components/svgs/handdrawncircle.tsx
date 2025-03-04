@@ -1,6 +1,6 @@
-import { IconFC } from "./icons"
+import { SvgFC } from "./icons"
 
-export const HandDrawnCircle: IconFC = ({ ...props }) => {
+export const HandDrawnCircle: SvgFC = ({ ...props }) => {
   return (
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
       width="1200.000000pt" height="1200.000000pt" viewBox="0 0 1200.000000 1200.000000"
