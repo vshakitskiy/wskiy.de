@@ -1,20 +1,29 @@
 import { Hero, About, Technologies, LetterGlitch, Projects } from "@/components/ui"
 import useCountry from "@/hooks/useCountry"
+
 export const App = () => {
-  const country = useCountry()
+  const { country, loaded } = useCountry()
+
   // ? Stylish background
   // ? On load animation
   // ? Hover effects
   // ? Ru translation
   return (
     <div className="relative h-full">
-      <LetterGlitch glitchColors={["#3a2813", "#6c4a24"]} glitchSpeed={60} centerVignette={true} outerVignette={true} smooth={true} className="fixed top-0" />
+      <LetterGlitch
+        glitchColors={["#3a2813", "#6c4a24"]}
+        glitchSpeed={60}
+        centerVignette={true}
+        outerVignette={true}
+        smooth={true}
+        className="fixed top-0"
+      />
       <div className="relative z-1 flex flex-col h-full">
         <div className="bg-[#3a2813] border-2 border-dashed border-[#6c4a24] fixed w-full z-2" />
         <div className="max-w-screen-max-px mx-auto px-3 sm:px-6 flex-1 mt-4">
           <header className="bg-[#3a281399] border-2 border-dashed border-[#6c4a24] rounded-md px-3 sm:px-6">
             <p className="base-text text-center">
-              island header soon {country?.emoji}👋
+              island header soon {loaded ? country!.flag : "🇺🇳"}👋
             </p>
           </header>
 

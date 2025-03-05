@@ -16,7 +16,7 @@ export default defineConfig({
     tailwindcss()
   ],
   server: {
-    port: 3000,
+    port: 5000,
     // TODO: build api for communication
     proxy: {
       "/api/ipdata": {

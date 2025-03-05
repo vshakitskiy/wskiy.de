@@ -2,55 +2,43 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 
-type CountryData = {
-  country_code: string
-  country_name: string
-  emoji_flag: string
-}
-
 type Country = {
   code: string
   name: string
-  emoji: string
+  flag: string
 }
 
 const url = import.meta.env.PROD
-  ? `https://api.ipdata.co?api-key=${import.meta.env.VITE_IPDATA_API_KEY}`
+  ? "https://wiskiy.up.railway.app/api/v1/proxy/ipdata"
   : "/api/ipdata"
 
 const useCountry = () => {
   const [cookies, setCookie] = useCookies(["country"])
   const [country, setCountry] = useState<Country | null>(null)
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    const fetchCountry = async () => {
-      if (cookies.country) {
-        setCountry(cookies.country)
-        return
-      }
-
-      axios
-        .get<CountryData>(url)
-        .then((res) => {
-          const data: Country = {
-            code: res.data.country_code,
-            name: res.data.country_name,
-            emoji: res.data.emoji_flag,
-          }
-          setCountry(data)
-          setCookie("country", data, {
-            expires: new Date(Date.now() + 1000 * 60 * 60),
-          })
-        })
-        .catch(() => console.error("~ unable to load country"))
+    if (cookies.country) {
+      setCountry(cookies.country)
+      setLoaded(true)
+      return
     }
 
-    fetchCountry()
-
-    fetchCountry()
+    axios
+      .get<Country>(url)
+      .then((res) => {
+        setCountry(res.data)
+        setCookie("country", res.data, {
+          expires: new Date(Date.now() + 1000 * 60 * 20),
+        })
+      })
+      .catch((reason) => {
+        console.error("~ unable to load country", reason)
+      })
+      .finally(() => setLoaded(true))
   }, [])
 
-  return country
+  return { country, loaded }
 }
 
 export default useCountry
