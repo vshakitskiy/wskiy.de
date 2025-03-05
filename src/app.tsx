@@ -1,10 +1,16 @@
-import { Hero, About, Technologies, LetterGlitch, Projects } from "@/components/ui"
+import {
+  Hero,
+  About,
+  Technologies,
+  LetterGlitch,
+  Projects,
+  Contact,
+} from "@/components/ui"
 import useCountry from "@/hooks/useCountry"
 
 export const App = () => {
   const { country, loaded } = useCountry()
 
-  // ? Stylish background
   // ? On load animation
   // ? Hover effects
   // ? Ru translation
@@ -22,8 +28,8 @@ export const App = () => {
         <div className="bg-[#3a2813] border-2 border-dashed border-[#6c4a24] fixed w-full z-2" />
         <div className="max-w-screen-max-px mx-auto px-3 sm:px-6 flex-1 mt-4">
           <header className="bg-[#3a281399] border-2 border-dashed border-[#6c4a24] rounded-md px-3 sm:px-6">
-            <p className="base-text text-center">
-              island header soon {loaded ? country!.flag : "🇺🇳"}👋
+            <p className="base-text text-center text-secondary">
+              :{loaded ? `ip_${country!.name.toLowerCase()}` : "untracked"} :lang_switch :time_life :soon
             </p>
           </header>
 
@@ -31,30 +37,19 @@ export const App = () => {
           <About />
           <Technologies />
           <Projects />
+          <Contact />
 
-          {/* // TODO &->ui/contact */}
-          <section className="mt-8">
-            <h2 className="text-2xl font-bold">Contact me</h2>
-            <p className="base-text mt-4">
-              Have an inquiry, or want to connect? Feel free to get in touch via Discord, Telegram, or email.
-            </p>
-            <p className="base-text text-secondary mt-4">In progress...</p>
-            {/* <p className="base-text ml-4 mt-2 text-secondary">- Discord</p>
-            <p className="base-text ml-8 mt-2 text-secondary">* Lanyard</p>
-            <p className="base-text ml-4 mt-2 text-secondary">- Email</p> */}
-          </section>
+          <footer className="mt-8 py-1 mb-4">
+            <div className="flex justify-between items-center">
+              <p className="base-text text-secondary">
+                ©/{new Date().getFullYear()}
+              </p>
+              <p className="base-text text-secondary">
+                v0/4
+              </p>
+            </div>
+          </footer>
         </div>
-        <footer className="mt-8 bg-[#3a281399] border-2 border-dashed border-[#6c4a24] px-3 sm:px-6">
-          <div className="flex justify-between items-center">
-            <p className="base-text text-secondary">
-              © {new Date().getFullYear()} WISKIY
-            </p>
-            {/* // TODO v[number based on commit count] */}
-            <p className="base-text text-secondary">
-              WIP/v0/4
-            </p>
-          </div>
-        </footer>
       </div>
     </div>
   )

@@ -25,10 +25,18 @@ const useCountry = () => {
     }
 
     axios
-      .get<Country>(url)
+      .get(url)
       .then((res) => {
-        setCountry(res.data)
-        setCookie("country", res.data, {
+        const country = import.meta.env.PROD
+          ? res.data
+          : {
+            code: res.data.country_code,
+            name: res.data.country_name,
+            flag: res.data.emoji_flag,
+          }
+
+        setCountry(country)
+        setCookie("country", country, {
           expires: new Date(Date.now() + 1000 * 60 * 20),
         })
       })
