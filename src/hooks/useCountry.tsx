@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
-
+import { wiskiyApi } from "@/data/config"
 type Country = {
   code: string
   name: string
@@ -9,10 +9,10 @@ type Country = {
 }
 
 const url = import.meta.env.PROD
-  ? "https://wiskiy.up.railway.app/api/v1/proxy/ipdata"
+  ? wiskiyApi
   : "/api/ipdata"
 
-const useCountry = () => {
+export const useCountry = () => {
   const [cookies, setCookie] = useCookies(["country"])
   const [country, setCountry] = useState<Country | null>(null)
   const [loaded, setLoaded] = useState(false)
@@ -48,5 +48,3 @@ const useCountry = () => {
 
   return { country, loaded }
 }
-
-export default useCountry
