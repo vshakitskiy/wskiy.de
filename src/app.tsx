@@ -6,7 +6,7 @@ import {
   Projects,
   Contact,
 } from "@/components/ui"
-import { useCountry, useLanyard } from "@/hooks"
+import { useCountry } from "@/hooks"
 
 export const App = () => {
   const { country, loaded } = useCountry()
