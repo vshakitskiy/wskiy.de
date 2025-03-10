@@ -6,10 +6,11 @@ import {
   Projects,
   Contact,
 } from "@/components/ui"
-import { useCountry } from "@/hooks"
+import { useCountry, useLanguage } from "@/hooks"
 
 export const App = () => {
-  const { country, loaded } = useCountry()
+  const { data, loaded } = useCountry()
+  const { language, switchLanguage } = useLanguage()
 
   // ? On load animation
   // ? Hover effects
@@ -29,8 +30,11 @@ export const App = () => {
         <div className="max-w-screen-max-px mx-auto px-3 sm:px-6 flex-1 mt-4">
           <header className="bg-[#3a281399] border-2 border-dashed border-[#6c4a24] rounded-md px-3 sm:px-6">
             <p className="base-text text-center text-secondary">
-              :{loaded ? `ip_${country!.name.toLowerCase()}` : "untracked"} :lang_switch :time_life :soon
+              :{loaded ? `ip_${data!.name.toLowerCase()}` : "untracked"} :{language} :time_life :soon
             </p>
+            <button className="base-text text-secondary" onClick={switchLanguage}>
+              {language === "en" ? "ru" : "en"}
+            </button>
           </header>
 
           <Hero />

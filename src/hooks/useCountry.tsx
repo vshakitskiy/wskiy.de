@@ -2,7 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 import { wiskiyApi } from "@/data/config"
-type Country = {
+export type Country = {
   code: string
   name: string
   flag: string
@@ -16,6 +16,7 @@ export const useCountry = () => {
   const [cookies, setCookie] = useCookies(["country"])
   const [country, setCountry] = useState<Country | null>(null)
   const [loaded, setLoaded] = useState(false)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     if (cookies.country) {
@@ -42,9 +43,10 @@ export const useCountry = () => {
       })
       .catch((reason) => {
         console.error("~ unable to load country", reason)
+        setError(true)
       })
       .finally(() => setLoaded(true))
   }, [])
 
-  return { country, loaded }
+  return { data: country, loaded, error }
 }

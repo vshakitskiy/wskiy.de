@@ -22,7 +22,7 @@ type LanyardRes = {
 
 export const useLanyard = ({ userId }: { userId: string }) => {
   const [data, setData] = useState<any>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState(false)
   const [loaded, setLoaded] = useState(false)
 
   const ws = useRef<WebSocket | null>(null)
@@ -36,7 +36,7 @@ export const useLanyard = ({ userId }: { userId: string }) => {
       ws.current = new WebSocket(`wss://api.lanyard.rest/socket`)
 
       ws.current.onopen = () => {
-        setError(null)
+        setError(false)
       }
 
       ws.current.onmessage = (e) => {
@@ -68,12 +68,12 @@ export const useLanyard = ({ userId }: { userId: string }) => {
       }
 
       ws.current!.onerror = () => {
-        setError("Failed to get presence :(")
+        setError(true)
         setLoaded(true)
       }
 
       ws.current!.onclose = () => {
-        setError("Reconnecting...")
+        setError(true)
         setTimeout(connect, 5000)
       }
     }
