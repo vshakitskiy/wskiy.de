@@ -7,12 +7,12 @@ export const Projects = () => {
 
   return (
     <section className="mt-8">
-      <h2 className="text-2xl md:text-3xl font-bold">Projects</h2>
+      <h2 className="text-2xl md:text-3xl font-bold">{projects.title}</h2>
       <p className="base-text mt-4">
-        During my free time I work on some projects on Github. Here are some of the recent ones:
+        {projects.text}
       </p>
       <div className="flex flex-col flex-wrap md:flex-row mt-4 gap-2">
-        {projects.map(({ data, inserts }) => (
+        {projects.list.map(({ data, inserts }) => (
           <div
             key={data.name}
             className="flex flex-col rounded-md p-2 sm:p-4 md:flex-1/3 xl:flex-1/4"

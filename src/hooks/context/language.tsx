@@ -1,7 +1,7 @@
 import { createContext, PropsWithChildren, FC, useContext } from "react"
 import { useCountry as useCountryHook } from "../useCountry"
 import { useLanguage as useLanguageHook, Language } from "../useLanguage"
-import { getText, AboutText, TechnologiesText, ProjectsData } from "@/data/text"
+import { getText, AboutText, TechnologiesText, ProjectsData, ContactText } from "@/data/text"
 import { Insert } from "@/types"
 
 type LanguageContext = {
@@ -32,9 +32,14 @@ type LanguageContext = {
       inserts: Insert[],
     }
     projects: {
-      data: ProjectsData,
-      inserts: Insert[],
-    }[]
+      title: string,
+      text: string,
+      list: {
+        data: ProjectsData,
+        inserts: Insert[],
+      }[]
+    },
+    contact: ContactText
   }
 }
 const LanguageContext = createContext<LanguageContext | null>(null)

@@ -93,7 +93,7 @@ export const Technologies = () => {
       </p>
       <div className="flex flex-wrap mt-4 gap-1">
         {icons.map((technology) => (
-          <div className="bg-[#ffffff25] flex-1/4 sm:flex-1/5 md:flex-1/6 lg:flex-1/7 xl:flex-1/8 h-20 rounded-md flex items-center justify-center cursor-progress">
+          <div className="bg-[#b3b3b325] flex-1/4 sm:flex-1/5 md:flex-1/6 lg:flex-1/7 xl:flex-1/8 h-20 rounded-md flex items-center justify-center cursor-progress">
             <technology.icon className={`size-8 sm:size-10 md:size-11 fill-primary${technology.className ? ` ${technology.className}` : ""}`} />
           </div>
         ))}

@@ -5,16 +5,14 @@ import {
   LetterGlitch,
   Projects,
   Contact,
+  Header,
+  Footer,
 } from "@/components/ui"
-import { useCountry, useLanguage } from "@/hooks"
 
 export const App = () => {
-  const { data, loaded } = useCountry()
-  const { language, switchLanguage } = useLanguage()
 
   // ? On load animation
-  // ? Hover effects
-  // ? Ru translation
+  // ?? Hover effects
   return (
     <div className="relative h-full">
       <LetterGlitch
@@ -28,31 +26,13 @@ export const App = () => {
       <div className="relative z-1 flex flex-col h-full">
         <div className="bg-[#3a2813] border-2 border-dashed border-[#6c4a24] fixed w-full z-2" />
         <div className="max-w-screen-max-px mx-auto px-3 sm:px-6 flex-1 mt-4">
-          <header className="bg-[#3a281399] border-2 border-dashed border-[#6c4a24] rounded-md px-3 sm:px-6">
-            <p className="base-text text-center text-secondary">
-              :{loaded ? `ip_${data!.name.toLowerCase()}` : "untracked"} :{language} :time_life :soon
-            </p>
-            <button className="base-text text-secondary" onClick={switchLanguage}>
-              {language === "en" ? "ru" : "en"}
-            </button>
-          </header>
-
+          <Header />
           <Hero />
           <About />
           <Technologies />
           <Projects />
           <Contact />
-
-          <footer className="mt-8 py-1 mb-4">
-            <div className="flex justify-between items-center">
-              <p className="base-text text-secondary">
-                ©/{new Date().getFullYear()}
-              </p>
-              <p className="base-text text-secondary">
-                v0/4
-              </p>
-            </div>
-          </footer>
+          <Footer />
         </div>
       </div>
     </div>
