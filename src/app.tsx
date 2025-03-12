@@ -10,7 +10,6 @@ import {
 } from "@/components/ui"
 
 export const App = () => {
-
   // ? On load animation
   // ?? Hover effects
   return (
@@ -23,9 +22,9 @@ export const App = () => {
         smooth={true}
         className="fixed top-0"
       />
-      <div className="relative z-1 flex flex-col h-full">
-        <div className="bg-[#3a2813] border-2 border-dashed border-[#6c4a24] fixed w-full z-2" />
-        <div className="max-w-screen-max-px mx-auto px-3 sm:px-6 flex-1 mt-4">
+      <div className="relative z-1 flex h-full flex-col">
+        <div className="fixed z-2 w-full border-2 border-dashed border-[#6c4a24] bg-[#3a2813]" />
+        <div className="max-w-screen-max-px mx-auto mt-4 flex-1 px-3 sm:px-6">
           <Header />
           <Hero />
           <About />

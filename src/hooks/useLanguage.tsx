@@ -1,14 +1,12 @@
+import { Country, Language } from "@/types"
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 
-export type Language = "en" | "ru"
-
-export const useLanguage = ({ country, loaded }: {
-  country: {
-    code: string;
-    name: string;
-    flag: string;
-  } | null,
+export const useLanguage = ({
+  country,
+  loaded,
+}: {
+  country: Country | null
   loaded: boolean
 }) => {
   const [cookies, setCookie] = useCookies(["language"])
@@ -35,6 +33,6 @@ export const useLanguage = ({ country, loaded }: {
   return {
     language,
     switchLanguage,
-    loaded: loaded && !!language
+    loaded: loaded && !!language,
   }
 }

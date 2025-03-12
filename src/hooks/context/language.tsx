@@ -1,60 +1,40 @@
 import { createContext, PropsWithChildren, FC, useContext } from "react"
 import { useCountry as useCountryHook } from "../useCountry"
-import { useLanguage as useLanguageHook, Language } from "../useLanguage"
-import { getText, AboutText, TechnologiesText, ProjectsData, ContactText } from "@/data/text"
-import { Insert } from "@/types"
+import { useLanguage as useLanguageHook } from "../useLanguage"
+import { Country, Text, Language } from "@/types"
+import { getText } from "@/data/text"
 
 type LanguageContext = {
   country: {
-    data: {
-      code: string,
-      name: string,
-      flag: string,
-    } | null
-    loaded: boolean,
-    error: boolean,
+    data: Country | null
+    loaded: boolean
+    error: boolean
   }
   language: {
-    language: Language,
-    switchLanguage: () => void,
+    language: Language
+    switchLanguage: () => void
     loaded: boolean
   }
-  text: {
-    about: {
-      text: AboutText,
-      inserts: {
-        about: Insert[],
-        current: Insert[],
-      },
-    }
-    technologies: {
-      text: TechnologiesText,
-      inserts: Insert[],
-    }
-    projects: {
-      title: string,
-      text: string,
-      list: {
-        data: ProjectsData,
-        inserts: Insert[],
-      }[]
-    },
-    contact: ContactText
-  }
+  text: Text
 }
 const LanguageContext = createContext<LanguageContext | null>(null)
 
 export const LanguageProvider: FC<PropsWithChildren> = ({ children }) => {
   const country = useCountryHook()
-  const language = useLanguageHook({ country: country.data, loaded: country.loaded })
+  const language = useLanguageHook({
+    country: country.data,
+    loaded: country.loaded,
+  })
   const text = getText(language.language)
 
   return (
-    <LanguageContext.Provider value={{
-      country,
-      language,
-      text,
-    }}>
+    <LanguageContext.Provider
+      value={{
+        country,
+        language,
+        text,
+      }}
+    >
       {children}
     </LanguageContext.Provider>
   )

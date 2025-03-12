@@ -8,8 +8,8 @@ export const Age = () => {
 
   return (
     <>
-      {beforePoint}<span className="text-secondary">.{afterPoint}</span>
+      {beforePoint}
+      <span className="text-secondary">.{afterPoint}</span>
     </>
   )
-
 }

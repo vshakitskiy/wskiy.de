@@ -38,6 +38,6 @@
   }
 
   .base-text {
-    @apply text-pretty text-sm sm:text-base lg:text-lg xl:text-xl;
+    @apply text-sm text-pretty sm:text-base lg:text-lg xl:text-xl;
   }
 }

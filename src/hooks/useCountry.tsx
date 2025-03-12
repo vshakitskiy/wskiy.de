@@ -2,15 +2,9 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 import { wiskiyApi } from "@/data/config"
-export type Country = {
-  code: string
-  name: string
-  flag: string
-}
+import { Country } from "@/types"
 
-const url = import.meta.env.PROD
-  ? wiskiyApi
-  : "/api/ipdata"
+const url = import.meta.env.PROD ? wiskiyApi : "/api/ipdata"
 
 export const useCountry = () => {
   const [cookies, setCookie] = useCookies(["country"])
@@ -31,10 +25,10 @@ export const useCountry = () => {
         const country = import.meta.env.PROD
           ? res.data
           : {
-            code: res.data.country_code,
-            name: res.data.country_name,
-            flag: res.data.emoji_flag,
-          }
+              code: res.data.country_code,
+              name: res.data.country_name,
+              flag: res.data.emoji_flag,
+            }
 
         setCountry(country)
         setCookie("country", country, {

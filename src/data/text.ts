@@ -1,167 +1,121 @@
 import { primary, secondary, sakura } from "@/data/colors"
-import { Insert } from "@/types"
+import {
+  AboutOrigin,
+  TechnologiesOrigin,
+  ProjectsOrigin,
+  ContactOrigin,
+  Text,
+} from "@/types"
 import www from "@/assets/www.png"
 import sakuraImg from "@/assets/sakura.png"
 
-export type AboutText = {
-  about: string
-  current: string
-}
-
-type About = {
-  en: AboutText
-  ru: AboutText
-  inserts: {
-    about: Insert[]
-    current: Insert[]
-  }
-}
-
-const about: About = {
+const about: AboutOrigin = {
   en: {
-    about: "y/o, student & developer from ~&. I'm passionate about learning new things, exploring fresh programming languages (Hi, ~&) and studying scalable systems. Mostly backend & networking. In love with ~&.",
-    current: "Currently working on ~&, HTTP framework for ~&. (later for ~& & ~&)",
+    about:
+      "y/o, student & developer from ~&. I'm passionate about learning new things, exploring fresh programming languages (Hi, ~&) and studying scalable systems. Mostly backend & networking. In love with ~&.",
+    current:
+      "Currently working on ~&, HTTP framework for ~&. (later for ~& & ~&)",
   },
   ru: {
-    about: "y/o, студент и разработчик из ~&. Вовлечен в изучении новых технологий, осванивании сравнительно свежих языков программирования (Привет, ~&) и разработке масштабируемых систем. В основном backend и сетевые технологии. ~& моё всё.",
-    current: "Сейчас работаю над ~&, HTTP фреймворком для ~&. (позже для ~& и ~&)",
+    about:
+      "y/o, студент и разработчик из ~&. Вовлечен в изучении новых технологий, осванивании сравнительно свежих языков программирования (Привет, ~&) и разработке масштабируемых систем. В основном backend и сетевые технологии. ~& моё всё.",
+    current:
+      "Сейчас работаю над ~&, HTTP фреймворком для ~&. (позже для ~& и ~&)",
   },
   inserts: {
     about: [
       {
         type: "color",
         color: secondary,
-        text: "🇷🇺🐻:vodka:"
+        text: "🇷🇺🐻:vodka:",
       },
       {
         type: "color",
         color: primary,
-        text: "Gleam"
+        text: "Gleam",
       },
       {
         type: "color",
         color: primary,
-        text: "Dariacore"
+        text: "Dariacore",
       },
     ],
     current: [
       {
         type: "color",
         color: primary,
-        text: "Sakura"
+        text: "Sakura",
       },
       {
         type: "color",
         color: primary,
-        text: "Deno"
+        text: "Deno",
       },
       {
         type: "color",
         color: primary,
-        text: "Bun"
+        text: "Bun",
       },
       {
         type: "color",
         color: primary,
-        text: "Node"
+        text: "Node",
       },
-    ]
-  }
+    ],
+  },
 }
 
-export type TechnologiesText = {
-  title: string
-  text: string
-}
-
-type Technologies = {
-  en: TechnologiesText
-  ru: TechnologiesText
-  inserts: {
-    en: Insert[]
-    ru: Insert[]
-  }
-}
-
-const technologies: Technologies = {
+const technologies: TechnologiesOrigin = {
   en: {
     title: "Technologies",
-    text: "Mostly used technologies so far (non-accurate ~& list):"
+    text: "Mostly used technologies so far (non-accurate ~& list):",
   },
   ru: {
     title: "Технологии",
-    text: "Используемые технологии за последнее время (неполный список ~& технологий):"
+    text: "Используемые технологии за последнее время (неполный список ~& технологий):",
   },
   inserts: {
     en: [
       {
         type: "color",
         color: primary,
-        text: "essential"
-      }
+        text: "essential",
+      },
     ],
     ru: [
       {
         type: "color",
         color: primary,
-        text: "важных"
-      }
-    ]
-  }
+        text: "важных",
+      },
+    ],
+  },
 }
 
-export type ProjectsData = {
-  name: string
-  theme: string
-  text: string
-  image: string
-  github: string
-}
-
-type Projects = {
-  ru: {
-    title: string
-    text: string
-  }
-  en: {
-    title: string
-    text: string
-  }
-  list: {
-    en: ProjectsData
-    ru: ProjectsData
-    inserts: {
-      en: Insert[]
-      ru: Insert[]
-    }
-  }[]
-}
-
-const projects: Projects = {
+const projects: ProjectsOrigin = {
   ru: {
     title: "Проекты",
-    text: "В свободное время я разрабатываю проекты и выкладываю их на Github. Вот некоторые из недавних:"
+    text: "В свободное время я разрабатываю проекты и выкладываю их на Github. Вот некоторые из недавних:",
   },
   en: {
     title: "Projects",
-    text: "During my free time I work on some projects on Github. Here are some of the recent ones:"
+    text: "During my free time I work on some projects on Github. Here are some of the recent ones:",
   },
   list: [
     {
       ru: {
         name: "Sakura🌸",
         theme: sakura,
-        text: "Sakura - это ~&, разработанный ~& и поддержкой ~&, которая позволяет создать сервер, \"растущий органически\", черпая вдохновение из грациозного изящества дерева сакуры. ~&",
+        text: 'Sakura - это ~&, разработанный ~& и поддержкой ~&, которая позволяет создать сервер, "растущий органически", черпая вдохновение из грациозного изящества дерева сакуры. ~&',
         image: sakuraImg,
-        github: "sakura"
-
+        github: "sakura",
       },
       en: {
         name: "Sakura🌸",
         theme: sakura,
         text: "Sakura is a ~& build with ~& and ~& support, that grows organically, drawing inspiration from the graceful elegance of a cherry blossom tree. ~&",
         image: sakuraImg,
-        github: "sakura"
+        github: "sakura",
       },
       inserts: {
         ru: [
@@ -207,8 +161,8 @@ const projects: Projects = {
             color: secondary,
             text: ":dev",
           },
-        ]
-      }
+        ],
+      },
     },
     {
       ru: {
@@ -216,21 +170,21 @@ const projects: Projects = {
         theme: primary,
         text: "Да, ~& самый сайт. ~&",
         image: www,
-        github: "www"
+        github: "www",
       },
       en: {
         name: "www🗺️",
         theme: primary,
         text: "Yea, ~& website. ~&",
         image: www,
-        github: "www"
+        github: "www",
       },
       inserts: {
         ru: [
           {
             type: "color",
             color: primary,
-            text: "этот ^"
+            text: "этот ^",
           },
           {
             type: "color",
@@ -242,7 +196,7 @@ const projects: Projects = {
           {
             type: "color",
             color: primary,
-            text: "this ^"
+            text: "this ^",
           },
           {
             type: "color",
@@ -251,65 +205,51 @@ const projects: Projects = {
           },
         ],
       },
-    }
-  ]
+    },
+  ],
 }
 
-export type ContactText = {
-  title: string
-  text: string
-  or: string
-  awake: string
-  asleep: string
-}
-
-type Contact = {
-  ru: ContactText
-  en: ContactText
-}
-
-const contact: Contact = {
+const contact: ContactOrigin = {
   ru: {
     title: "Контакты",
     text: "Есть вопрос, или хотите связаться? Моя личка открыта для всех. Свободно обращайтесь в",
     or: "или",
     awake: "Прямо сейчас на связи. Милости просим в личку!",
-    asleep: "Сейчас я, вероятно, сплю. Отвечу при первой возможности."
+    asleep: "Сейчас я, вероятно, сплю. Отвечу при первой возможности.",
   },
   en: {
     title: "Contact",
     text: "Have an inquiry, or want to connect? Feel free to get in touch via",
     or: "or",
     awake: "I'm probably awake. Feel free to contact me.",
-    asleep: "I'm probably sleeping now. I'll get back to you as soon as possible."
-  }
+    asleep:
+      "I'm probably sleeping now. I'll get back to you as soon as possible.",
+  },
 }
 
 const text = {
   about,
   technologies,
   projects,
-  contact
+  contact,
 }
 
-export const getText = (language: "en" | "ru") => {
-  return {
-    about: {
-      text: text.about[language],
-      inserts: text.about.inserts,
-    },
-    technologies: {
-      text: text.technologies[language],
-      inserts: text.technologies.inserts[language],
-    },
-    projects: {
-      title: projects[language].title,
-      text: projects[language].text,
-      list: projects.list.map((project) => ({
-        data: project[language],
-        inserts: project.inserts[language],
-      })),
-    },
-    contact: text.contact[language]
-  }
-}
+export const getText = (language: "en" | "ru"): Text => ({
+  about: {
+    text: text.about[language],
+    inserts: text.about.inserts,
+  },
+  technologies: {
+    text: text.technologies[language],
+    inserts: text.technologies.inserts[language],
+  },
+  projects: {
+    title: projects[language].title,
+    text: projects[language].text,
+    list: projects.list.map((project) => ({
+      data: project[language],
+      inserts: project.inserts[language],
+    })),
+  },
+  contact: text.contact[language],
+})

@@ -1,11 +1,16 @@
-import { useLanguage } from "@/hooks"
+import { useLanguage, useTime } from "@/hooks"
 
 export const Header = () => {
   const { language, switchLanguage } = useLanguage()
+  const time = useTime()
 
   return (
-    <header className="bg-[#3a281399] border-2 border-dashed border-[#6c4a24] rounded-md px-3 py-1 sm:px-6 flex justify-between items-center">
-      <button className="base-text underline text-secondary" onClick={switchLanguage}>
+    <header className="flex items-center justify-between rounded-md pt-1 pb-3">
+      <p className="base-text text-secondary">{time.toLocaleTimeString()}</p>
+      <button
+        className="base-text text-secondary underline"
+        onClick={switchLanguage}
+      >
         {language === "en" ? "RU" : "EN"}
       </button>
     </header>
