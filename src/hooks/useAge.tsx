@@ -1,4 +1,5 @@
-import { Age } from "@/types"
+import type { Age } from "@/types"
+
 import { useEffect, useState } from "react"
 
 type UseAgeProps = {

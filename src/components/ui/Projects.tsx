@@ -1,5 +1,6 @@
-import { GithubIcon } from "@/components/svgs"
 import { TaggedText } from "./TaggedText"
+
+import { GithubIcon } from "@/components/svgs"
 import { useText } from "@/hooks"
 
 export const Projects = () => {
@@ -28,9 +29,10 @@ export const Projects = () => {
                 {data.name}
               </h2>
               <a
+                className="base-text inline-block text-secondary"
                 href={`https://github.com/vshakitskiy/${data.github}`}
+                rel="noreferrer"
                 target="_blank"
-                className="base-text text-secondary inline-block"
               >
                 <GithubIcon
                   className="size-5 sm:size-6"
@@ -41,12 +43,12 @@ export const Projects = () => {
               </a>
             </div>
             <p className="base-text mt-4 flex-1">
-              <TaggedText text={data.text} inserts={inserts} />
+              <TaggedText inserts={inserts} text={data.text} />
             </p>
             <img
-              src={data.image}
               alt={data.name}
               className="mx-auto mt-4 w-full rounded-md"
+              src={data.image}
             />
           </div>
         ))}

@@ -1,7 +1,11 @@
-import { createContext, PropsWithChildren, FC, useContext } from "react"
+import type { Country, Language, Text } from "@/types"
+import type { FC, PropsWithChildren } from "react"
+
+import { createContext, useContext } from "react"
+
 import { useCountry as useCountryHook } from "../useCountry"
 import { useLanguage as useLanguageHook } from "../useLanguage"
-import { Country, Text, Language } from "@/types"
+
 import { getText } from "@/data/text"
 
 type LanguageContext = {

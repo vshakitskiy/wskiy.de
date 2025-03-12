@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 type LetterGlitchProps = {
   glitchColors: string[]
@@ -182,7 +182,7 @@ export const LetterGlitch = ({
   }, [glitchSpeed, smooth])
 
   return (
-    <div className={`bg-background h-full w-full overflow-hidden ${className}`}>
+    <div className={`h-full w-full overflow-hidden bg-background ${className}`}>
       <canvas ref={canvasRef} className="block h-full w-full" />
       {outerVignette && (
         <div className="pointer-events-none absolute top-0 left-0 h-full w-full bg-[radial-gradient(circle,_rgba(0,0,0,0)_50%,_rgba(0,0,0,1)_100%)]" />
@@ -195,7 +195,7 @@ export const LetterGlitch = ({
 }
 
 const lettersAndSymbols =
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=\/[]{};<>,.0123456789".split("")
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};<>,.0123456789".split("")
 const getRandomChar = () => {
   return lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)]
 }

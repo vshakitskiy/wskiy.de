@@ -1,4 +1,4 @@
-import { SvgFC } from "./icons"
+import type { SvgFC } from "./icons"
 
 export const TailwindcssIcon: SvgFC = ({ ...props }) => {
   return (

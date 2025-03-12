@@ -1,12 +1,12 @@
-import { SvgFC } from "./icons"
+import type { SvgFC } from "./icons"
 
 export const HandDrawnArrow: SvgFC = ({ ...props }) => {
   return (
     <svg
-      width="800px"
+      fill="none"
       height="800px"
       viewBox="0 -89 219 219"
-      fill="none"
+      width="800px"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >

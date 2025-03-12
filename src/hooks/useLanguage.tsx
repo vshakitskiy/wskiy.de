@@ -1,4 +1,5 @@
-import { Country, Language } from "@/types"
+import type { Country, Language } from "@/types"
+
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 

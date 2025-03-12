@@ -7,6 +7,9 @@
   "printWidth": 80,
   "arrowParens": "always",
   "bracketSpacing": true,
+  "filepath": "**/*.{js,mjs,cjs,ts,jsx,tsx}",
   "plugins": ["prettier-plugin-tailwindcss"],
-  "filepath": "src/**/*.{ts,tsx}"
+  "tailwindStylesheet": "./src/index.css",
+  "tailwindPreserveWhitespace": true,
+  "tailwindPreserveDuplicates": true
 }

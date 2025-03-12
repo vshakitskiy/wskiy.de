@@ -1,7 +1,6 @@
-import { defineConfig } from "vite"
 import preact from "@preact/preset-vite"
 import tailwindcss from "@tailwindcss/vite"
-import { loadEnv } from "vite"
+import { defineConfig, loadEnv } from "vite"
 
 const env = loadEnv(process.env.NODE_ENV as string, process.cwd(), "VITE_")
 

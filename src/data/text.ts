@@ -1,13 +1,14 @@
-import { primary, secondary, sakura } from "@/data/colors"
-import {
+import type {
   AboutOrigin,
-  TechnologiesOrigin,
-  ProjectsOrigin,
   ContactOrigin,
+  ProjectsOrigin,
+  TechnologiesOrigin,
   Text,
 } from "@/types"
-import www from "@/assets/www.png"
+
 import sakuraImg from "@/assets/sakura.png"
+import www from "@/assets/www.png"
+import { primary, sakura, secondary } from "@/data/colors"
 
 const about: AboutOrigin = {
   en: {

@@ -1,6 +1,7 @@
-import { useText } from "@/hooks"
-import { TaggedText } from "./TaggedText"
 import { Age } from "./Age"
+import { TaggedText } from "./TaggedText"
+
+import { useText } from "@/hooks"
 
 export const About = () => {
   const { about } = useText()
@@ -9,10 +10,10 @@ export const About = () => {
     <section className="mt-8">
       <p className="base-text">
         <Age />{" "}
-        <TaggedText text={about.text.about} inserts={about.inserts.about} />
+        <TaggedText inserts={about.inserts.about} text={about.text.about} />
       </p>
       <p className="base-text mt-4">
-        <TaggedText text={about.text.current} inserts={about.inserts.current} />
+        <TaggedText inserts={about.inserts.current} text={about.text.current} />
       </p>
     </section>
   )

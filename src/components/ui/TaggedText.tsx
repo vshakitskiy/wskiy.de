@@ -1,5 +1,5 @@
 import type { Insert } from "@/types"
-import { ReactNode } from "react"
+import type { ReactNode } from "react"
 
 type TaggedTextProps = {
   text: string
@@ -19,9 +19,10 @@ export const TaggedText = ({ text, inserts }: TaggedTextProps) => {
           insert.link ? (
             <a
               key={index}
-              target="_blank"
               href={insert.link}
+              rel="noreferrer"
               style={{ color: insert.color }}
+              target="_blank"
             >
               {insert.text}
             </a>

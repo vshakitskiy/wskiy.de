@@ -1,8 +1,10 @@
+import type { Country } from "@/types"
+
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
+
 import { wiskiyApi } from "@/data/config"
-import { Country } from "@/types"
 
 const url = import.meta.env.PROD ? wiskiyApi : "/api/ipdata"
 

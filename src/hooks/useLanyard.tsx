@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useMemo } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
+
 import { secondary } from "@/data/colors"
 
 type RawPresence = {
@@ -10,20 +11,20 @@ type RawPresence = {
 
 type LanyardRes =
   | {
-    op: 1
-    d: {
-      heartbeat_interval: number
+      op: 1
+      d: {
+        heartbeat_interval: number
+      }
     }
-  }
   | {
-    op: 0
-    seq: number
-    t: "INIT_STATE" | "PRESENCE_UPDATE"
-    d: RawPresence
-  }
+      op: 0
+      seq: number
+      t: "INIT_STATE" | "PRESENCE_UPDATE"
+      d: RawPresence
+    }
 
 export const useLanyard = ({ userId }: { userId: string }) => {
-  const [data, setData] = useState<any>(null)
+  const [data, setData] = useState<RawPresence | null>(null)
   const [error, setError] = useState(false)
   const [loaded, setLoaded] = useState(false)
 
@@ -44,7 +45,7 @@ export const useLanyard = ({ userId }: { userId: string }) => {
       ws.current.onmessage = (e) => {
         const res = JSON.parse(e.data) as LanyardRes
         switch (res.op) {
-          case 1:
+          case 1: {
             const interval = res.d.heartbeat_interval
             heartbeat.current = setInterval(() => {
               ws.current!.send(JSON.stringify({ op: 3 }))
@@ -59,6 +60,7 @@ export const useLanyard = ({ userId }: { userId: string }) => {
               }),
             )
             break
+          }
           case 0:
             if (res.t === "INIT_STATE") {
               setData(res.d)

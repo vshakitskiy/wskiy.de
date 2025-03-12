@@ -1,4 +1,4 @@
-import { discordId, telegramId, email } from "@/data/config"
+import { discordId, email, telegramId } from "@/data/config"
 import { useLanyard, useText } from "@/hooks"
 
 export const Contact = () => {
@@ -13,6 +13,7 @@ export const Contact = () => {
         <a
           className="text-primary underline"
           href={`https://discord.com/users/${discordId}`}
+          rel="noreferrer"
           target="_blank"
         >
           discord
@@ -21,6 +22,7 @@ export const Contact = () => {
         <a
           className="text-primary underline"
           href={`https://t.me/${telegramId}`}
+          rel="noreferrer"
           target="_blank"
         >
           telegram
@@ -29,6 +31,7 @@ export const Contact = () => {
         <a
           className="text-primary underline"
           href={`mailto:${email}`}
+          rel="noreferrer"
           target="_blank"
         >
           email
@@ -36,9 +39,9 @@ export const Contact = () => {
         .
       </p>
       {amISleeping() ? (
-        <p className="base-text text-secondary mt-4">{contact.asleep}</p>
+        <p className="base-text mt-4 text-secondary">{contact.asleep}</p>
       ) : (
-        <p className="base-text text-primary mt-4">{contact.awake}</p>
+        <p className="base-text mt-4 text-primary">{contact.awake}</p>
       )}
     </section>
   )

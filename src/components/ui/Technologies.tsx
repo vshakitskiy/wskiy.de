@@ -1,22 +1,23 @@
+import { TaggedText } from "./TaggedText"
+
 import {
-  TypescriptIcon,
-  TailwindcssIcon,
-  ReactIcon,
-  GoIcon,
-  DockerIcon,
-  GitIcon,
-  PostgresqlIcon,
-  VscodeIcon,
-  ViteIcon,
-  NextIcon,
-  HonoIcon,
   BunIcon,
   DenoIcon,
+  DockerIcon,
   GinIcon,
+  GitIcon,
+  GoIcon,
+  HonoIcon,
+  NextIcon,
+  PostgresqlIcon,
+  ReactIcon,
   RedisIcon,
+  TailwindcssIcon,
+  TypescriptIcon,
+  ViteIcon,
+  VscodeIcon,
 } from "@/components/svgs"
 import { useText } from "@/hooks"
-import { TaggedText } from "./TaggedText"
 
 const icons = [
   {
@@ -92,13 +93,16 @@ export const Technologies = () => {
       </h2>
       <p className="base-text mt-4">
         <TaggedText
-          text={technologies.text.text}
           inserts={technologies.inserts}
+          text={technologies.text.text}
         />
       </p>
       <div className="mt-4 flex flex-wrap gap-1">
         {icons.map((technology) => (
-          <div className="flex h-20 flex-1/4 cursor-progress items-center justify-center rounded-md bg-[#b3b3b325] sm:flex-1/5 md:flex-1/6 lg:flex-1/7 xl:flex-1/8">
+          <div
+            key={technology.name}
+            className="flex h-20 flex-1/4 cursor-progress items-center justify-center rounded-md bg-[#b3b3b325] sm:flex-1/5 md:flex-1/6 lg:flex-1/7 xl:flex-1/8"
+          >
             <technology.icon
               className={`size-8 sm:size-10 md:size-11 fill-primary${technology.className ? ` ${technology.className}` : ""}`}
             />

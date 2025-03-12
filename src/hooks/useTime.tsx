@@ -1,4 +1,4 @@
-import { useState, useEffect } from "preact/hooks"
+import { useEffect, useState } from "preact/hooks"
 
 export const useTime = () => {
   const [time, setTime] = useState(new Date())
