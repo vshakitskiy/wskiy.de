@@ -8,21 +8,23 @@ type RawPresence = {
   active_on_discord_web: boolean
 }
 
-type LanyardRes = {
-  op: 1
-  d: {
-    heartbeat_interval: number
+type LanyardRes =
+  | {
+    op: 1
+    d: {
+      heartbeat_interval: number
+    }
   }
-} | {
-  op: 0
-  seq: number
-  t: "INIT_STATE" | "PRESENCE_UPDATE"
-  d: RawPresence
-}
+  | {
+    op: 0
+    seq: number
+    t: "INIT_STATE" | "PRESENCE_UPDATE"
+    d: RawPresence
+  }
 
 export const useLanyard = ({ userId }: { userId: string }) => {
   const [data, setData] = useState<any>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState(false)
   const [loaded, setLoaded] = useState(false)
 
   const ws = useRef<WebSocket | null>(null)
@@ -36,12 +38,11 @@ export const useLanyard = ({ userId }: { userId: string }) => {
       ws.current = new WebSocket(`wss://api.lanyard.rest/socket`)
 
       ws.current.onopen = () => {
-        setError(null)
+        setError(false)
       }
 
       ws.current.onmessage = (e) => {
         const res = JSON.parse(e.data) as LanyardRes
-        console.log(res)
         switch (res.op) {
           case 1:
             const interval = res.d.heartbeat_interval
@@ -49,12 +50,14 @@ export const useLanyard = ({ userId }: { userId: string }) => {
               ws.current!.send(JSON.stringify({ op: 3 }))
             }, interval)
 
-            ws.current!.send(JSON.stringify({
-              op: 2,
-              d: {
-                subscribe_to_id: userId,
-              },
-            }))
+            ws.current!.send(
+              JSON.stringify({
+                op: 2,
+                d: {
+                  subscribe_to_id: userId,
+                },
+              }),
+            )
             break
           case 0:
             if (res.t === "INIT_STATE") {
@@ -68,12 +71,12 @@ export const useLanyard = ({ userId }: { userId: string }) => {
       }
 
       ws.current!.onerror = () => {
-        setError("Failed to get presence :(")
+        setError(true)
         setLoaded(true)
       }
 
       ws.current!.onclose = () => {
-        setError("Reconnecting...")
+        setError(true)
         setTimeout(connect, 5000)
       }
     }
@@ -117,7 +120,7 @@ export const useLanyard = ({ userId }: { userId: string }) => {
     return {
       status,
       active,
-      color
+      color,
     }
   }, [data])
   return {

@@ -66,7 +66,12 @@ export const LetterGlitch = ({
       context.current.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
 
-    const { columns, rows } = calculateGrid(rect.width, charWidth, rect.height, charHeight)
+    const { columns, rows } = calculateGrid(
+      rect.width,
+      charWidth,
+      rect.height,
+      charHeight,
+    )
     initializeLetters(columns, rows)
     drawLetters()
   }
@@ -177,23 +182,22 @@ export const LetterGlitch = ({
   }, [glitchSpeed, smooth])
 
   return (
-    <div className={`h-full w-full overflow-hidden bg-background ${className}`}>
+    <div className={`bg-background h-full w-full overflow-hidden ${className}`}>
       <canvas ref={canvasRef} className="block h-full w-full" />
       {outerVignette && (
-        <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(circle,_rgba(0,0,0,0)_50%,_rgba(0,0,0,1)_100%)]" />
+        <div className="pointer-events-none absolute top-0 left-0 h-full w-full bg-[radial-gradient(circle,_rgba(0,0,0,0)_50%,_rgba(0,0,0,1)_100%)]" />
       )}
       {centerVignette && (
-        <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(circle,_rgba(0,0,0,0.8)_0%,_rgba(0,0,0,0)_100%)]" />
+        <div className="pointer-events-none absolute top-0 left-0 h-full w-full bg-[radial-gradient(circle,_rgba(0,0,0,0.8)_0%,_rgba(0,0,0,0)_100%)]" />
       )}
     </div>
   )
 }
 
-const lettersAndSymbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=\/[]{};<>,.0123456789".split("")
+const lettersAndSymbols =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=\/[]{};<>,.0123456789".split("")
 const getRandomChar = () => {
-  return lettersAndSymbols[
-    Math.floor(Math.random() * lettersAndSymbols.length)
-  ]
+  return lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)]
 }
 
 const getRandomColor = (glitchColors: string[]) => {
@@ -209,10 +213,10 @@ const hexToRgb = (hex: string) => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
   return result
     ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16),
-    }
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
     : null
 }
 
@@ -229,7 +233,12 @@ const interpolateColor = (
   return `rgb(${result.r}, ${result.g}, ${result.b})`
 }
 
-const calculateGrid = (width: number, charWidth: number, height: number, charHeight: number) => {
+const calculateGrid = (
+  width: number,
+  charWidth: number,
+  height: number,
+  charHeight: number,
+) => {
   const columns = Math.ceil(width / charWidth)
   const rows = Math.ceil(height / charHeight)
   return { columns, rows }

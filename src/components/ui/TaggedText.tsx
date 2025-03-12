@@ -1,10 +1,5 @@
+import type { Insert } from "@/types"
 import { ReactNode } from "react"
-
-type Insert = {
-  type: string
-  color: string
-  text: string
-}
 
 type TaggedTextProps = {
   text: string
@@ -21,13 +16,24 @@ export const TaggedText = ({ text, inserts }: TaggedTextProps) => {
       const insert = inserts[index]
       if (insert.type === "color") {
         result.push(
-          <span key={index} style={{ color: insert.color }}>
-            {insert.text}
-          </span>
+          insert.link ? (
+            <a
+              key={index}
+              target="_blank"
+              href={insert.link}
+              style={{ color: insert.color }}
+            >
+              {insert.text}
+            </a>
+          ) : (
+            <span key={index} style={{ color: insert.color }}>
+              {insert.text}
+            </span>
+          ),
         )
       }
     }
   })
 
   return <>{result}</>
-} 
+}

@@ -2,20 +2,15 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 import { wiskiyApi } from "@/data/config"
-type Country = {
-  code: string
-  name: string
-  flag: string
-}
+import { Country } from "@/types"
 
-const url = import.meta.env.PROD
-  ? wiskiyApi
-  : "/api/ipdata"
+const url = import.meta.env.PROD ? wiskiyApi : "/api/ipdata"
 
 export const useCountry = () => {
   const [cookies, setCookie] = useCookies(["country"])
   const [country, setCountry] = useState<Country | null>(null)
   const [loaded, setLoaded] = useState(false)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     if (cookies.country) {
@@ -30,10 +25,10 @@ export const useCountry = () => {
         const country = import.meta.env.PROD
           ? res.data
           : {
-            code: res.data.country_code,
-            name: res.data.country_name,
-            flag: res.data.emoji_flag,
-          }
+              code: res.data.country_code,
+              name: res.data.country_name,
+              flag: res.data.emoji_flag,
+            }
 
         setCountry(country)
         setCookie("country", country, {
@@ -42,9 +37,10 @@ export const useCountry = () => {
       })
       .catch((reason) => {
         console.error("~ unable to load country", reason)
+        setError(true)
       })
       .finally(() => setLoaded(true))
   }, [])
 
-  return { country, loaded }
+  return { data: country, loaded, error }
 }
