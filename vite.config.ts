@@ -18,7 +18,7 @@ export default defineConfig({
       },
     },
   },
-  base: "/www/",
+  // base: "/www/",
   resolve: {
     alias: {
       "@": "/src",
