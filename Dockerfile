@@ -8,7 +8,7 @@ RUN bun install --frozen-lockfile
 
 COPY . ./
 
-ENV VITE_REST_URL=${VITE_REST_URL}
+ARG VITE_REST_URL
 
 RUN bun run build
 
@@ -19,6 +19,8 @@ WORKDIR /app
 
 COPY Caddyfile ./
 RUN caddy fmt Caddyfile --overwrite
+
+ARG VITE_REST_URL
 
 COPY --from=builder /app/dist ./dist
 
