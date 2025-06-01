@@ -8,6 +8,8 @@ RUN bun install --frozen-lockfile
 
 COPY . ./
 
+ENV VITE_REST_URL=${VITE_REST_URL}
+
 RUN bun run build
 
 # Caddy

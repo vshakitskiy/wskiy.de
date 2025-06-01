@@ -30,8 +30,6 @@ export const LocalisationProvider: FC<PropsWithChildren> = ({ children }) => {
 export const useLocalisationContext = () => {
   const context = useContext(LocalisationContext)
 
-  console.log(context)
-
   if (!context) {
     throw new Error("Hook must be used within a ContextProvider")
   }
