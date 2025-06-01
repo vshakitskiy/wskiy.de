@@ -1,30 +1,22 @@
-import type { Country, Language } from "@/types"
-
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 
-export const useLanguage = ({
-  country,
-  loaded,
-}: {
-  country: Country | null
-  loaded: boolean
-}) => {
+export const useLanguage = () => {
   const [cookies, setCookie] = useCookies(["language"])
-  const [language, setLanguage] = useState<Language>(cookies.language || "en")
+  const [language, setLanguage] = useState<"en" | "ru">(
+    cookies.language || "en",
+  )
 
   useEffect(() => {
-    if (!loaded || !country || cookies.language) return
+    if (cookies.language) return
 
-    const initialLanguage: Language = country.code === "RU" ? "ru" : "en"
-    setLanguage(initialLanguage)
-    setCookie("language", initialLanguage, {
+    setCookie("language", "en", {
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
     })
-  }, [country, loaded])
+  }, [])
 
   const switchLanguage = () => {
-    const newLanguage: Language = language === "en" ? "ru" : "en"
+    const newLanguage = language === "en" ? "ru" : "en"
     setLanguage(newLanguage)
     setCookie("language", newLanguage, {
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
@@ -34,6 +26,5 @@ export const useLanguage = ({
   return {
     language,
     switchLanguage,
-    loaded: loaded && !!language,
   }
 }

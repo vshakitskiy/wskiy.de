@@ -1,48 +1,62 @@
-import type { Country } from "@/types"
-
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 
-import { wiskiyApi } from "@/data/config"
+type Country = {
+  code: string
+  name: string
+  flag: string
+}
 
-const url = import.meta.env.PROD ? wiskiyApi : "/api/ipdata"
+type LocationResp =
+  | {
+      success: true
+      data: Country
+    }
+  | {
+      success: false
+      error: string
+    }
 
+const restUrl = import.meta.env.VITE_REST_URL
 export const useCountry = () => {
   const [cookies, setCookie] = useCookies(["country"])
+
   const [country, setCountry] = useState<Country | null>(null)
-  const [loaded, setLoaded] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
+  const [success, setSuccess] = useState(false)
 
   useEffect(() => {
     if (cookies.country) {
       setCountry(cookies.country)
-      setLoaded(true)
+      setLoading(false)
+      setSuccess(true)
       return
     }
 
     axios
-      .get(url)
-      .then((res) => {
-        const country = import.meta.env.PROD
-          ? res.data
-          : {
-              code: res.data.country_code,
-              name: res.data.country_name,
-              flag: res.data.emoji_flag,
-            }
+      .get<LocationResp>(`${restUrl}/api/v1/proxy/location`)
+      .then((resp) => {
+        const body = resp.data
 
-        setCountry(country)
-        setCookie("country", country, {
-          expires: new Date(Date.now() + 1000 * 60 * 20),
-        })
-      })
-      .catch((reason) => {
-        console.error("~ unable to load country", reason)
+        if (body.success) {
+          setCountry(body.data)
+          setCookie("country", body.data, {
+            expires: new Date(Date.now() + 1000 * 60 * 20),
+          })
+          setSuccess(true)
+          return
+        }
+
         setError(true)
       })
-      .finally(() => setLoaded(true))
+      .catch((reason) => {
+        console.error("Unable to load country:", reason)
+        setError(true)
+      })
+      .finally(() => setLoading(false))
   }, [])
 
-  return { data: country, loaded, error }
+  return { data: country, loading, error, success }
 }

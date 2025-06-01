@@ -1,4 +1,4 @@
-import { Age } from "./Age"
+import { Age } from "./dynamics/Age"
 import { TaggedText } from "./TaggedText"
 
 import { useText } from "@/hooks"

@@ -80,10 +80,4 @@ export type Age = {
   afterPoint: string
 }
 
-export type Country = {
-  code: string
-  name: string
-  flag: string
-}
-
 export type Language = "en" | "ru"

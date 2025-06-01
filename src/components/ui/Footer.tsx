@@ -1,7 +1,7 @@
 import { useCountry } from "@/hooks"
 
 export const Footer = () => {
-  const { data, loaded } = useCountry()
+  const { data, success } = useCountry()
 
   return (
     <footer className="mt-8 mb-4 py-1">
@@ -10,9 +10,8 @@ export const Footer = () => {
           ©/{new Date().getFullYear()}
         </p>
         <p className="base-text text-secondary">
-          {loaded ? data!.flag : "..."}
+          {success ? data!.flag : "..."}
         </p>
-        <p className="base-text text-secondary">v0/5</p>
       </div>
     </footer>
   )
