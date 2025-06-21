@@ -9,8 +9,3 @@ export const useLanguage = () => {
   const { language } = useLocalisationContext()
   return language
 }
-
-export const useText = () => {
-  const { text } = useLocalisationContext()
-  return text
-}
