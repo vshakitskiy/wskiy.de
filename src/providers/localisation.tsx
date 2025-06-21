@@ -1,27 +1,22 @@
-import type { Text } from "@/types"
 import type { FC, PropsWithChildren } from "react"
 
 import { createContext, useContext } from "react"
 
 import { useLanguage as useLanguageHook } from "../hooks/useLanguage"
 
-import { getText } from "@/data/text"
-
 type LocalisationContext = {
   language: {
     language: "en" | "ru"
     switchLanguage: () => void
   }
-  text: Text
 }
 const LocalisationContext = createContext<LocalisationContext | null>(null)
 
 export const LocalisationProvider: FC<PropsWithChildren> = ({ children }) => {
   const language = useLanguageHook()
-  const text = getText(language.language)
 
   return (
-    <LocalisationContext.Provider value={{ language, text }}>
+    <LocalisationContext.Provider value={{ language }}>
       {children}
     </LocalisationContext.Provider>
   )

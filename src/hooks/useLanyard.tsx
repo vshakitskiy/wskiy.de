@@ -98,7 +98,7 @@ export const useLanyard = ({ userId }: { userId: string }) => {
     let status = ":pending"
     switch (data.discord_status) {
       case "online":
-        status = ":on"
+        status = ":online"
         color = "#33cc33"
         break
       case "idle":
@@ -110,7 +110,7 @@ export const useLanyard = ({ userId }: { userId: string }) => {
         color = "#cc0000"
         break
       case "offline":
-        status = ":off"
+        status = ":offline"
         break
     }
 

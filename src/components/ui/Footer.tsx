@@ -10,7 +10,7 @@ export const Footer = () => {
           ©/{new Date().getFullYear()}
         </p>
         <p className="base-text text-secondary">
-          {success ? data!.flag : "..."}
+          wskiy.de | {success ? data!.flag : "🏴‍☠️"}
         </p>
       </div>
     </footer>

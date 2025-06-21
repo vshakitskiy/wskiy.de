@@ -1,15 +1,32 @@
 import { discordId, email, telegramId } from "@/data/config"
-import { useLanyard, useText } from "@/hooks"
+import { useLanguage, useLanyard } from "@/hooks"
+
+const translation = {
+  ru: {
+    title: "Контакты",
+    text: [
+      "Есть вопрос, или хотите связаться? Не стесняйтесь, пишите мне в",
+      "или",
+    ],
+  },
+  en: {
+    title: "Contact me",
+    text: [
+      "Have an inquiry, or want to connect? Feel free to get in touch via",
+      "or",
+    ],
+  },
+}
 
 export const Contact = () => {
   const { data } = useLanyard({ userId: discordId })
-  const { contact } = useText()
+  const { language } = useLanguage()
 
   return (
     <section className="mt-8">
-      <h2 className="text-2xl font-bold">{contact.title}</h2>
+      <h2 className="text-2xl font-bold">{translation[language].title}</h2>
       <p className="base-text mt-4">
-        {contact.text}{" "}
+        {translation[language].text[0]}{" "}
         <a
           className="text-primary underline"
           href={`https://discord.com/users/${discordId}`}
@@ -27,7 +44,7 @@ export const Contact = () => {
         >
           telegram
         </a>
-        , {contact.or}{" "}
+        , {translation[language].text[1]}{" "}
         <a
           className="text-primary underline"
           href={`mailto:${email}`}
@@ -38,22 +55,6 @@ export const Contact = () => {
         </a>
         .
       </p>
-      {amISleeping() ? (
-        <p className="base-text mt-4 text-secondary">{contact.asleep}</p>
-      ) : (
-        <p className="base-text mt-4 text-primary">{contact.awake}</p>
-      )}
     </section>
   )
-}
-
-const amISleeping = () => {
-  const moscowTime = new Date().toLocaleString("en-US", {
-    timeZone: "Europe/Moscow",
-  })
-
-  const moscowDate = new Date(moscowTime)
-  const hours = moscowDate.getHours()
-
-  return hours < 9 || hours >= 21
 }

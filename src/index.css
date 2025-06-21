@@ -24,10 +24,15 @@
   --breakpoint-max-px: 1440px;
 
   --color-background: #101010;
-  --color-primary: #ffc799;
-  --color-text: #ffffff;
-  --color-secondary: #a0a0a0;
-  --color-selection: #232323;
+  --color-primary: #FF8FA3;
+  --color-text: #ffe3eb;
+  --color-secondary: #8e8e8e;
+  --color-selection: #505050;
+
+  --color-glitch-primary: #aa4054;
+  --color-glitch-secondary: #6e2641;
+
+  --color-primary-transparent: #ff8fa417;
 }
 
 @layer base {
