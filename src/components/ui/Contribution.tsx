@@ -1,6 +1,5 @@
 import clsx from "clsx"
 
-import { text } from "@/data/colors"
 import { useContributions, useLanguage } from "@/hooks"
 
 const translation = {

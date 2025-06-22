@@ -1,5 +1,3 @@
-import type { Age } from "@/types"
-
 import { useEffect, useState } from "react"
 
 type UseAgeProps = {
@@ -7,7 +5,7 @@ type UseAgeProps = {
   precision?: number
 }
 
-export const useAge = ({ birth, precision = 0 }: UseAgeProps): Age => {
+export const useAge = ({ birth, precision = 0 }: UseAgeProps) => {
   const [age, setAge] = useState<string>("0.0")
 
   useEffect(() => {
