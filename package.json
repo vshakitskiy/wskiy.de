@@ -13,6 +13,7 @@
     "@tailwindcss/vite": "^4.1.8",
     "@types/bun": "^1.2.15",
     "axios": "^1.9.0",
+    "clsx": "^2.1.1",
     "preact": "^10.26.8",
     "react-cookie": "^7.2.2",
     "tailwindcss": "^4.1.8"

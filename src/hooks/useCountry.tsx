@@ -58,5 +58,5 @@ export const useCountry = () => {
       .finally(() => setLoading(false))
   }, [])
 
-  return { data: country, loading, error, success }
+  return { country, loading, error, success }
 }

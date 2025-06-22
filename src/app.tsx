@@ -1,6 +1,7 @@
 import {
   About,
   Contact,
+  Contribution,
   Footer,
   Header,
   Hero,
@@ -25,13 +26,12 @@ export const App = () => {
       />
       <div className="relative z-1 flex h-full flex-col">
         <div className="fixed z-2 w-full border-2 border-dashed border-glitch-primary bg-glitch-secondary" />
-        <div className="mx-auto mt-4 max-w-screen-max-px flex-1 px-3 sm:px-6">
+        <div className="mx-auto mt-4 w-full max-w-screen-max-px flex-1 px-3 sm:px-6">
           <Header />
           <Hero />
           <About />
-          {/* TODO: github activity */}
-          <div />
           <Technologies />
+          <Contribution />
           <Projects />
           <Contact />
           <Footer />
