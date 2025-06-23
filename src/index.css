@@ -48,3 +48,9 @@
     @apply text-sm text-pretty sm:text-base lg:text-lg xl:text-xl;
   }
 }
+
+@layer components {
+  .simplebar-scrollbar:before {
+    @apply bg-primary!;
+  }
+}

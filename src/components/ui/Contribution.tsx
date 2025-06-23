@@ -1,4 +1,14 @@
 import clsx from "clsx"
+import { useState } from "react"
+import ResizeObserver from "resize-observer-polyfill"
+import SimpleBar from "simplebar-react"
+
+// eslint-disable-next-line import/order
+import { Tooltip } from "@/components/ui/Tooltip"
+
+import "simplebar-react/dist/simplebar.min.css"
+
+window.ResizeObserver = ResizeObserver
 
 import { useContributions, useLanguage } from "@/hooks"
 
@@ -24,27 +34,40 @@ const getColor = (count: number) => {
   return "bg-primary-dark"
 }
 
-const position = (weekIndex: number, dayIndex: number) => {
-  let res = ""
-  if (dayIndex > 3) {
-    res += "bottom-7"
-  } else {
-    res += "top-7"
-  }
-  res += " "
-
-  if (weekIndex > 6) {
-    res += "right-7"
-  } else {
-    res += "left-7"
-  }
-
-  return res
-}
-
 export const Contribution = () => {
   const { language } = useLanguage()
   const { contributions, loading, error, success } = useContributions()
+  const failed = !success && error
+
+  const [tooltipData, setTooltipData] = useState<{
+    day: {
+      count: number
+      date: string
+    }
+    position: { top: number; left: number }
+  } | null>(null)
+
+  const handleMouseEnter = (
+    event: React.MouseEvent<HTMLDivElement>,
+    day: {
+      count: number
+      date: string
+    },
+  ) => {
+    if (day.count === 0) return
+    const rect = event.currentTarget.getBoundingClientRect()
+    setTooltipData({
+      day,
+      position: {
+        top: rect.top + window.scrollY,
+        left: rect.left + rect.width / 2,
+      },
+    })
+  }
+
+  const handleMouseLeave = () => {
+    setTooltipData(null)
+  }
 
   return (
     <section className="mt-8">
@@ -56,53 +79,51 @@ export const Contribution = () => {
           ) : (
             contributions?.total
           )}
+          {failed && <span className="font-bold">x</span>}
         </span>
       </h2>
       <div className="mt-4 rounded-sm bg-primary/20 px-2 py-3">
-        <div className="flex flex-row gap-1 overflow-x-scroll">
-          {success &&
-            contributions!.weeks.map((week, weekIndex) => (
-              <div key={weekIndex} className="flex flex-col gap-1">
-                {week.map((day, dayIndex) => (
-                  <div
-                    key={dayIndex}
-                    className={clsx(
-                      "group relative flex h-4 w-4 items-center justify-center rounded-sm sm:h-5.5 sm:w-5.5",
-                      getColor(day.count),
-                    )}
-                  >
+        <SimpleBar autoHide={true} forceVisible="y">
+          <div className="relative flex flex-row gap-1">
+            {success &&
+              contributions!.weeks.map((week, weekIndex) => (
+                <div key={weekIndex} className="flex flex-col gap-1">
+                  {week.map((day, dayIndex) => (
                     <div
+                      key={dayIndex}
                       className={clsx(
-                        "absolute z-10 hidden rounded-sm border-glitch-primary bg-background p-2 group-hover:hidden group-hover:sm:block",
-                        position(weekIndex, dayIndex),
+                        "flex h-4 w-4 items-center justify-center rounded-sm sm:h-5.5 sm:w-5.5",
+                        getColor(day.count),
                       )}
-                    >
-                      <h3 className="text-md text-primary sm:text-xl">
-                        {day.count}
-                      </h3>
-                      <p className="text-right text-xs text-secondary sm:text-sm">
-                        {day.date.split("-").reverse().join(".")}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ))}
-          {loading &&
-            !success &&
-            error &&
-            mockContributions.map((week, index) => (
-              <div key={index} className="flex flex-col gap-1">
-                {week.map((_, index) => (
-                  <div
-                    key={index}
-                    className="flex h-4 w-4 animate-[pulse_1.5s_ease-in-out_infinite] items-center justify-center rounded-sm bg-primary/40 md:h-5.5 md:w-5.5"
-                  />
-                ))}
-              </div>
-            ))}
-        </div>
+                      onMouseEnter={(e) => handleMouseEnter(e, day)}
+                      onMouseLeave={handleMouseLeave}
+                    ></div>
+                  ))}
+                </div>
+              ))}
+            {(loading || failed) &&
+              mockContributions.map((week, index) => (
+                <div key={index} className="flex flex-col gap-1">
+                  {week.map((_, index) => (
+                    <div
+                      key={index}
+                      className={
+                        "flex h-4 w-4 items-center justify-center rounded-sm md:h-5.5 md:w-5.5 " +
+                        (loading
+                          ? "animate-[pulse_1.5s_ease-in-out_infinite] bg-primary/40"
+                          : "bg-primary/20")
+                      }
+                    />
+                  ))}
+                </div>
+              ))}
+          </div>
+        </SimpleBar>
       </div>
+
+      {tooltipData && (
+        <Tooltip day={tooltipData.day} position={tooltipData.position} />
+      )}
     </section>
   )
 }

@@ -22,6 +22,8 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "jsxImportSource": "preact",
 
     /* Linting */
