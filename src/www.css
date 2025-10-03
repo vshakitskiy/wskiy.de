@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Monocraft";
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url("/priv/static/fonts/monocraft.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Monocraft";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/priv/static/fonts/monocraft_semibold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Monocraft";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/priv/static/fonts/monocraft_bold.woff2") format("woff2");
+}
+
+
+
+@theme {
+  --font-monocraft: "Monocraft", monospace;
+  --font-desyrel: "Desyrel", cursive;
+
+
+  --breakpoint-xs: 360px;
+  --color-background:rgb(255, 227, 232);
+  --color-primary:rgb(53, 32, 36);
+  --color-detail: rgb(255, 134, 156);
+}
