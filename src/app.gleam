@@ -1,39 +1,69 @@
+import gleam/result
+import gleam/uri
 import lustre
 import lustre/attribute
+import lustre/effect.{type Effect}
 import lustre/element.{type Element}
 import lustre/element/html
+import modem
 
 pub fn main() {
-  let app = lustre.simple(init, update, view)
+  let app = lustre.application(init, update, view)
   let assert Ok(_) = lustre.start(app, "#app", Nil)
 
   Nil
 }
 
-type Model =
-  Nil
-
-fn init(_args) -> Model {
-  Nil
+pub type Route {
+  Home
 }
 
-type Msg
+type Model =
+  Route
 
-fn update(model: Model, msg: Msg) -> Model {
-  Nil
+fn init(_args) -> #(Model, Effect(Msg)) {
+  let route =
+    modem.initial_uri()
+    |> result.map(fn(uri) { uri.path_segments(uri.path) })
+    |> fn(path) {
+      case path {
+        _ -> Home
+      }
+    }
+
+  #(route, modem.init(on_url_change))
+}
+
+fn on_url_change(uri: uri.Uri) -> Msg {
+  case uri.path_segments(uri.path) {
+    _ -> OnRouterChange(Home)
+  }
+}
+
+type Msg {
+  OnRouterChange(Route)
+}
+
+fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
+  case msg {
+    OnRouterChange(route) -> #(route, effect.none())
+  }
 }
 
 fn view(model: Model) -> Element(Msg) {
   element.fragment([
-    view_navbar(),
+    view_header(),
     html.main([attribute.class("flex-1 flex items-center justify-center")], [
-      view_hero(),
+      case model {
+        Home -> view_home()
+      },
     ]),
+    view_footer(),
   ])
 }
 
-fn view_navbar() -> Element(Msg) {
-  html.header([], [
+fn view_header() -> Element(Msg) {
+  html.header([attribute.class("h-7")], [
     html.nav([attribute.class("bg-background")], [
       html.div([attribute.class("")], [
         html.a([attribute.href("/")], [html.text("Home")]),
@@ -42,7 +72,15 @@ fn view_navbar() -> Element(Msg) {
   ])
 }
 
-fn view_hero() -> Element(Msg) {
+fn view_footer() -> Element(Msg) {
+  html.footer([], [
+    html.p([attribute.class("my-4 text-center text-sm text-stone-500")], [
+      html.text("Made with Gleam & Lustre"),
+    ]),
+  ])
+}
+
+fn view_home() -> Element(Msg) {
   html.section([attribute.class("sm:flex sm:gap-6")], [
     html.div([], [
       html.img([
@@ -66,37 +104,39 @@ fn view_hero() -> Element(Msg) {
       html.p(
         [
           attribute.class(
-            "mt-4 text-justify leading-6 xs:max-w-md sm:max-w-sm md:max-w-lg md:text-lg xl:text-xl",
+            "mt-4 text-justify leading-6 xs:max-w-md sm:max-w-sm md:max-w-lg
+            md:text-lg xl:text-xl",
           ),
         ],
         [
           html.text(
-            "19 y/o, student & developer from Russia. I'm passionate about networking and backend development, and I'm currently working on my own side projects and having fun working with new technologies. In love with ",
+            "19 y/o, student & developer from Russia. I'm passionate about
+            networking and backend development, and I'm currently working on my
+            own side projects and having fun working with new technologies. In
+            love with ",
           ),
-          html.a(
-            [
-              attribute.class("text-detail"),
-              attribute.href("https://gleam.run"),
-              attribute.target("_blank"),
-            ],
-            [html.text("#gleam")],
-          ),
+          tag("gleam", "https://gleam.run"),
           html.text(", "),
-          html.a(
-            [
-              attribute.class("text-detail"),
-              attribute.href(
-                "https://rateyourmusic.com/list/Hyp3r10n/_dariacore-hyperflip/1/",
-              ),
-              attribute.target("_blank"),
-            ],
-            [
-              html.text("#hyperflip"),
-            ],
+          tag(
+            "hyperflip",
+            "https://rateyourmusic.com/list/Hyp3r10n/_dariacore-hyperflip/1/",
           ),
           html.text("."),
         ],
       ),
     ]),
   ])
+}
+
+fn tag(name: String, link: String) -> Element(Msg) {
+  html.a(
+    [
+      attribute.class("text-detail"),
+      attribute.href(link),
+      attribute.target("_blank"),
+    ],
+    [
+      html.text("#" <> name),
+    ],
+  )
 }

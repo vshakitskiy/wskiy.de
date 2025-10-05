@@ -38,13 +38,17 @@
 }
 
 @layer base {
-  html, body {
-    @apply h-full
+  html {
+    @apply min-h-screen;
+  }
+
+  body {
+    @apply min-h-screen bg-background text-primary;
   }
 }
 
 @layer components {
   #app {
-    @apply h-full flex flex-col px-4 font-monocraft bg-background text-primary;
+    @apply min-h-screen flex flex-col px-4 font-monocraft max-w-5xl mx-auto;
   }
 }
