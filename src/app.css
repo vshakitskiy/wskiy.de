@@ -5,7 +5,7 @@
   font-style: normal;
   font-weight: normal;
   font-display: swap;
-  src: url("/priv/static/fonts/monocraft.woff2") format("woff2");
+  src: url("/fonts/monocraft.woff2") format("woff2");
 }
 
 @font-face {
@@ -13,7 +13,7 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("/priv/static/fonts/monocraft_semibold.woff2") format("woff2");
+  src: url("/fonts/monocraft_semibold.woff2") format("woff2");
 }
 
 @font-face {
@@ -21,7 +21,7 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("/priv/static/fonts/monocraft_bold.woff2") format("woff2");
+  src: url("/fonts/monocraft_bold.woff2") format("woff2");
 }
 
 
@@ -35,4 +35,16 @@
   --color-background:rgb(255, 227, 232);
   --color-primary:rgb(53, 32, 36);
   --color-detail: rgb(255, 134, 156);
+}
+
+@layer base {
+  html, body {
+    @apply h-full
+  }
+}
+
+@layer components {
+  #app {
+    @apply h-full flex flex-col px-4 font-monocraft bg-background text-primary;
+  }
 }

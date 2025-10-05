@@ -49,7 +49,8 @@ fn view_hero() -> Element(Msg) {
         attribute.class(
           "rounded-md xs:size-60 sm:size-50 md:size-60 lg:size-80 xl:size-90",
         ),
-        attribute.src("/priv/static/images/me.jpg"),
+        attribute.src("/images/me.jpg"),
+        attribute.alt("me"),
       ]),
     ]),
     html.div([attribute.class("mt-3 sm:flex-1 sm:mt-0")], [
@@ -70,7 +71,7 @@ fn view_hero() -> Element(Msg) {
         ],
         [
           html.text(
-            "19 y/o, student & developer from Russia. I'm passionate about networking and backend development, and I'm currently working on my own side projects. In love with ",
+            "19 y/o, student & developer from Russia. I'm passionate about networking and backend development, and I'm currently working on my own side projects and having fun working with new technologies. In love with ",
           ),
           html.a(
             [
