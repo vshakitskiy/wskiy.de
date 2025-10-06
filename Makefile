@@ -1,5 +1,5 @@
 start:
 	gleam run -m lustre/dev start
 
-build:
+dist:
 	gleam run -m lustre/dev build

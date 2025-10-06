@@ -25,6 +25,7 @@ lustre_dev_tools = ">= 2.0.2 and < 3.0.0"
 
 [tools.lustre.build]
 minify = true
+outdir = "./dist"
 
 [tools.lustre.dev]
 host = "0.0.0.0"

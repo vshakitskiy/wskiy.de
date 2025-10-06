@@ -1,6 +1,5 @@
 import gleam/list
 import gleam/result
-import gleam/string
 import gleam/uri
 import lustre
 import lustre/attribute
@@ -18,7 +17,10 @@ pub fn main() {
 
 pub type Route {
   Home
-  MyWork
+  Work
+  Contact
+
+  NotFound
 }
 
 type Model =
@@ -30,8 +32,11 @@ fn init(_args) -> #(Model, Effect(Msg)) {
     |> result.map(fn(uri) { uri.path_segments(uri.path) })
     |> fn(path) {
       case path {
-        Ok(["work"]) -> MyWork
-        _ -> Home
+        Ok([]) -> Home
+        Ok(["work"]) -> Work
+        Ok(["contact"]) -> Contact
+
+        _ -> NotFound
       }
     }
 
@@ -40,8 +45,11 @@ fn init(_args) -> #(Model, Effect(Msg)) {
 
 fn on_url_change(uri: uri.Uri) -> Msg {
   case uri.path_segments(uri.path) {
-    ["work"] -> OnRouterChange(MyWork)
-    _ -> OnRouterChange(Home)
+    [] -> OnRouterChange(Home)
+    ["work"] -> OnRouterChange(Work)
+    ["contact"] -> OnRouterChange(Contact)
+
+    _ -> OnRouterChange(NotFound)
   }
 }
 
@@ -61,7 +69,10 @@ fn view(model: Model) -> Element(Msg) {
     html.main([attribute.class("flex-1 flex items-center justify-center")], [
       case model {
         Home -> view_home()
-        MyWork -> view_my_work()
+        Work -> view_my_work()
+        Contact -> view_contact()
+
+        NotFound -> view_not_found()
       },
     ]),
     view_footer(),
@@ -69,20 +80,35 @@ fn view(model: Model) -> Element(Msg) {
 }
 
 fn view_header() -> Element(Msg) {
-  html.header([attribute.class("h-7")], [
-    html.nav([attribute.class("bg-background")], [
-      html.div([attribute.class("")], [
-        html.a([attribute.href("/")], [html.text("Home")]),
-        html.a([attribute.href("/work")], [html.text("My work")]),
+  html.header([attribute.class("py-4")], [
+    html.nav([], [
+      html.ul([attribute.class("flex justify-center gap-6")], [
+        html.li([], [
+          html.a([attribute.href("/")], [html.text("Home")]),
+        ]),
+        html.li([], [
+          html.a([attribute.href("/work")], [html.text("Work")]),
+        ]),
+        html.li([], [
+          html.a([attribute.href("/contact")], [html.text("Contact")]),
+        ]),
       ]),
     ]),
   ])
 }
 
 fn view_footer() -> Element(Msg) {
-  html.footer([], [
-    html.p([attribute.class("my-4 text-center text-sm text-stone-500")], [
-      html.text("Made with Gleam & Lustre"),
+  html.footer([attribute.class("py-4")], [
+    html.p([attribute.class("text-center text-sm text-stone-500")], [
+      html.text("Made with Lustre. "),
+      html.a(
+        [
+          attribute.class("underline"),
+          attribute.href("https://github.com/vshakitskiy/www"),
+          attribute.target("_blank"),
+        ],
+        [html.text("Source")],
+      ),
     ]),
   ])
 }
@@ -224,6 +250,119 @@ fn view_project(project: Project) {
     html.p(
       [attribute.class("mt-2 md:text-lg xl:text-xl")],
       list.map(project.tags, view_tag) |> list.intersperse(html.text(", ")),
+    ),
+  ])
+}
+
+type Social {
+  Social(name: String, display: String, link: String, icon_url: String)
+}
+
+fn get_socials() {
+  [
+    Social(
+      name: "Email",
+      display: "vshakitskiy@gmail.com",
+      link: "mailto:vshakitskiy@gmail.com",
+      icon_url: "/icons/email.svg",
+    ),
+    Social(
+      name: "Discord",
+      display: "@vshakitskiy",
+      link: "https://discord.com/users/511911643475738656",
+      icon_url: "/icons/discord.svg",
+    ),
+    Social(
+      name: "GitHub",
+      display: "vshakitskiy",
+      link: "https://github.com/vshakitskiy",
+      icon_url: "/icons/github.svg",
+    ),
+    Social(
+      name: "Telegram",
+      display: "@vshakitskiy",
+      link: "https://t.me/vshakitskiy",
+      icon_url: "/icons/telegram.svg",
+    ),
+  ]
+}
+
+fn view_contact() -> Element(Msg) {
+  html.section([attribute.class("")], [
+    html.h1([attribute.class("font-bold text-xl md:text-2xl xl:text-3xl")], [
+      html.text("Get In Touch"),
+    ]),
+    html.p(
+      [
+        attribute.class(
+          "mt-2 text-justify leading-6 md:text-lg xl:text-xl xs:max-w-md sm:max-w-lg md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl",
+        ),
+      ],
+      [
+        html.text(
+          "You can contact me anytime via email or through my social media
+      accounts!",
+        ),
+      ],
+    ),
+    html.ul(
+      [
+        attribute.class(
+          "mt-4 flex flex-col gap-2 sm:justify-around sm:flex-row sm:flex-wrap xs:max-w-md sm:max-w-lg md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl",
+        ),
+      ],
+      // TODO: add status indicator
+      list.map(get_socials(), view_social),
+    ),
+  ])
+}
+
+fn view_social(social: Social) {
+  html.li(
+    [
+      attribute.class("w-full sm:w-[49%]"),
+    ],
+    [
+      html.div([attribute.class("flex items-center gap-2")], [
+        html.img([
+          attribute.src(social.icon_url),
+          attribute.alt(social.name),
+          attribute.class("size-5 md:size-6"),
+        ]),
+        html.span([attribute.class("md:text-lg xl:text-xl")], [
+          html.text(social.name),
+        ]),
+      ]),
+      html.a(
+        [
+          attribute.href(social.link),
+          attribute.target("_blank"),
+          attribute.class("block underline text-detail md:text-lg xl:text-xl"),
+        ],
+        [
+          html.text(social.display),
+        ],
+      ),
+    ],
+  )
+}
+
+fn view_not_found() -> Element(Msg) {
+  html.section([], [
+    html.h1([attribute.class("font-bold text-3xl md:text-4xl")], [
+      html.text("404"),
+    ]),
+    html.p([attribute.class("mt-2 md:text-lg xl:text-xl")], [
+      html.text("Maybe you're lost?"),
+    ]),
+    html.a(
+      [
+        attribute.href("/"),
+        attribute.class("text-detail md:text-lg xl:text-xl"),
+      ],
+      [
+        html.text("<-- Home"),
+      ],
     ),
   ])
 }
