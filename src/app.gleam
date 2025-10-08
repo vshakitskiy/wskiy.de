@@ -18,6 +18,7 @@ pub fn main() {
 pub type Route {
   Home
   Work
+  Blog
   Contact
 
   NotFound
@@ -34,6 +35,7 @@ fn init(_args) -> #(Model, Effect(Msg)) {
       case path {
         Ok([]) -> Home
         Ok(["work"]) -> Work
+        Ok(["blog"]) -> Blog
         Ok(["contact"]) -> Contact
 
         _ -> NotFound
@@ -47,6 +49,7 @@ fn on_url_change(uri: uri.Uri) -> Msg {
   case uri.path_segments(uri.path) {
     [] -> OnRouterChange(Home)
     ["work"] -> OnRouterChange(Work)
+    ["blog"] -> OnRouterChange(Blog)
     ["contact"] -> OnRouterChange(Contact)
 
     _ -> OnRouterChange(NotFound)
@@ -70,6 +73,7 @@ fn view(model: Model) -> Element(Msg) {
       case model {
         Home -> view_home()
         Work -> view_my_work()
+        Blog -> view_blog()
         Contact -> view_contact()
 
         NotFound -> view_not_found()
@@ -88,6 +92,9 @@ fn view_header() -> Element(Msg) {
         ]),
         html.li([], [
           html.a([attribute.href("/work")], [html.text("Work")]),
+        ]),
+        html.li([], [
+          html.a([attribute.href("/blog")], [html.text("Blog")]),
         ]),
         html.li([], [
           html.a([attribute.href("/contact")], [html.text("Contact")]),
@@ -239,8 +246,8 @@ fn view_project(project: Project) {
     html.p(
       [
         attribute.class(
-          "text-justify leading-6 xs:max-w-md sm:max-w-lg md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl
-            md:text-lg xl:text-xl",
+          "text-justify leading-6 xs:max-w-md sm:max-w-lg md:max-w-xl 
+          xl:max-w-2xl 2xl:max-w-3xl md:text-lg xl:text-xl",
         ),
       ],
       [
@@ -295,7 +302,8 @@ fn view_contact() -> Element(Msg) {
     html.p(
       [
         attribute.class(
-          "mt-2 text-justify leading-6 md:text-lg xl:text-xl xs:max-w-md sm:max-w-lg md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl",
+          "mt-2 text-justify leading-6 md:text-lg xl:text-xl xs:max-w-md 
+          sm:max-w-lg md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl",
         ),
       ],
       [
@@ -308,7 +316,8 @@ fn view_contact() -> Element(Msg) {
     html.ul(
       [
         attribute.class(
-          "mt-4 flex flex-col gap-2 sm:justify-around sm:flex-row sm:flex-wrap xs:max-w-md sm:max-w-lg md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl",
+          "mt-4 flex flex-col gap-2 sm:justify-around sm:flex-row sm:flex-wrap 
+          xs:max-w-md sm:max-w-lg md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl",
         ),
       ],
       // TODO: add status indicator
@@ -345,6 +354,17 @@ fn view_social(social: Social) {
       ),
     ],
   )
+}
+
+fn view_blog() -> Element(Msg) {
+  html.section([], [
+    html.h1([attribute.class("font-bold text-xl md:text-2xl xl:text-3xl")], [
+      html.text("Blog"),
+    ]),
+    html.p([attribute.class("mt-2 md:text-lg xl:text-xl")], [
+      html.text("Coming soon..."),
+    ]),
+  ])
 }
 
 fn view_not_found() -> Element(Msg) {
