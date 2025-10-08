@@ -32,4 +32,20 @@ host = "0.0.0.0"
 port = 8080
 
 [tools.lustre.html]
-title = "🚧 wiskiy"
+title = "wiskiy"
+links = [
+  { rel = "preload", href = "/favicon.ico", as = "image" },
+
+  { rel = "preload", href = "/fonts/monocraft.woff2", as = "font", type = "font/woff2" },
+  { rel = "preload", href = "/fonts/monocraft_semibold.woff2", as = "font", type = "font/woff2" },
+  { rel = "preload", href = "/fonts/monocraft_bold.woff2", as = "font", type = "font/woff2" },
+
+  { rel = "preload", href = "/images/me.jpg", as = "image" },
+
+  { rel = "preload", href = "/icons/github.svg", as = "image" },
+  { rel = "preload", href = "/icons/discord.svg", as = "image" },
+  { rel = "preload", href = "/icons/telegram.svg", as = "image" },
+  { rel = "preload", href = "/icons/email.svg", as = "image" },
+
+  { rel = "icon", href = "/favicon.ico" },
+]
