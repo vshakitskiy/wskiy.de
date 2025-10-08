@@ -1,6 +1,6 @@
+import app/route.{type Route}
 import gleam/list
 import gleam/result
-import gleam/uri
 import lustre
 import lustre/attribute
 import lustre/effect.{type Effect}
@@ -9,51 +9,22 @@ import lustre/element/html
 import modem
 
 pub fn main() {
-  let app = lustre.application(init, update, view)
+  let app = lustre.application(init, update, view_layout)
   let assert Ok(_) = lustre.start(app, "#app", Nil)
 
   Nil
 }
 
-pub type Route {
-  Home
-  Work
-  Blog
-  Contact
-
-  NotFound
-}
-
 type Model =
-  Route
+  route.Route
 
 fn init(_args) -> #(Model, Effect(Msg)) {
   let route =
     modem.initial_uri()
-    |> result.map(fn(uri) { uri.path_segments(uri.path) })
-    |> fn(path) {
-      case path {
-        Ok([]) -> Home
-        Ok(["work"]) -> Work
-        Ok(["blog"]) -> Blog
-        Ok(["contact"]) -> Contact
+    |> result.map(route.from_uri)
+    |> result.unwrap(route.NotFound)
 
-        _ -> NotFound
-      }
-    }
-
-  #(route, modem.init(on_url_change))
-}
-
-fn on_url_change(uri: uri.Uri) -> Msg {
-  case uri.path_segments(uri.path) {
-    [] -> OnRouterChange(Home)
-    ["work"] -> OnRouterChange(Work)
-    ["blog"] -> OnRouterChange(Blog)
-    ["contact"] -> OnRouterChange(Contact)
-
-    _ -> OnRouterChange(NotFound)
-  }
+  #(route, modem.init(fn(uri) { OnRouterChange(route.from_uri(uri)) }))
 }
 
 type Msg {
@@ -66,17 +37,21 @@ fn update(_model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   }
 }
 
-fn view(model: Model) -> Element(Msg) {
+// -----------------------------------------------------------------------------
+// Layout
+// -----------------------------------------------------------------------------
+
+fn view_layout(model: Model) -> Element(Msg) {
   element.fragment([
     view_header(),
     html.main([attribute.class("flex-1 flex items-center justify-center")], [
       case model {
-        Home -> view_home()
-        Work -> view_my_work()
-        Blog -> view_blog()
-        Contact -> view_contact()
+        route.Home -> view_home()
+        route.Work -> view_my_work()
+        route.Blog -> view_blog()
+        route.Contact -> view_contact()
 
-        NotFound -> view_not_found()
+        route.NotFound -> view_not_found()
       },
     ]),
     view_footer(),
@@ -119,6 +94,10 @@ fn view_footer() -> Element(Msg) {
     ]),
   ])
 }
+
+// -----------------------------------------------------------------------------
+// Home
+// -----------------------------------------------------------------------------
 
 fn view_home() -> Element(Msg) {
   html.section([attribute.class("sm:flex sm:gap-6")], [
@@ -180,6 +159,10 @@ fn view_tag(tag: Tag) -> Element(Msg) {
     ],
   )
 }
+
+// -----------------------------------------------------------------------------
+// My Work
+// -----------------------------------------------------------------------------
 
 type Project {
   Project(
@@ -260,6 +243,25 @@ fn view_project(project: Project) {
     ),
   ])
 }
+
+// -----------------------------------------------------------------------------
+// Blog
+// -----------------------------------------------------------------------------
+
+fn view_blog() -> Element(Msg) {
+  html.section([], [
+    html.h1([attribute.class("font-bold text-xl md:text-2xl xl:text-3xl")], [
+      html.text("Blog"),
+    ]),
+    html.p([attribute.class("mt-2 md:text-lg xl:text-xl")], [
+      html.text("Coming soon..."),
+    ]),
+  ])
+}
+
+// -----------------------------------------------------------------------------
+// Contact
+// -----------------------------------------------------------------------------
 
 type Social {
   Social(name: String, display: String, link: String, icon_url: String)
@@ -356,16 +358,9 @@ fn view_social(social: Social) {
   )
 }
 
-fn view_blog() -> Element(Msg) {
-  html.section([], [
-    html.h1([attribute.class("font-bold text-xl md:text-2xl xl:text-3xl")], [
-      html.text("Blog"),
-    ]),
-    html.p([attribute.class("mt-2 md:text-lg xl:text-xl")], [
-      html.text("Coming soon..."),
-    ]),
-  ])
-}
+// -----------------------------------------------------------------------------
+// 404
+// -----------------------------------------------------------------------------
 
 fn view_not_found() -> Element(Msg) {
   html.section([], [
