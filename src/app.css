@@ -32,9 +32,17 @@
 
 
   --breakpoint-xs: 360px;
-  --color-background:rgb(255, 227, 232);
-  --color-primary:rgb(53, 32, 36);
+  --color-background: rgb(255, 227, 232);
+  --color-primary: rgb(53, 32, 36);
   --color-detail: rgb(255, 134, 156);
+
+  --color-code-background: rgb(255, 206, 217);
+  --color-code-number: rgb(247, 79, 129);
+  --color-code-string: rgb(247, 79, 129);
+  --color-code-comment: rgb(133, 146, 149);
+  --color-code-keyword: rgb(77, 70, 72);
+  --color-code-title: rgb(229, 106, 138);
+  --color-code-variable:rgb(140, 55, 72);
 }
 
 @layer base {
@@ -50,5 +58,31 @@
 @layer components {
   #app {
     @apply min-h-screen flex flex-col px-4 font-monocraft max-w-5xl mx-auto;
+  }
+
+  .hljs-number {
+    @apply text-code-number;
+  }
+
+  .hljs-string {
+    @apply text-code-string;
+  }
+
+  .hljs-comment {
+    @apply text-code-comment;
+  }
+
+  .hljs-keyword,
+  .hljs-built_in,
+  .hljs-operator {
+    @apply text-code-keyword;
+  }
+
+  .hljs-title {
+    @apply text-code-title;
+  }
+
+  .hljs-variable {
+    @apply text-code-variable;
   }
 }

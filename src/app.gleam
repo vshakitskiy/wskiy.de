@@ -1,3 +1,4 @@
+import app/blog
 import app/route.{type Route}
 import gleam/list
 import gleam/result
@@ -249,14 +250,9 @@ fn view_project(project: Project) {
 // -----------------------------------------------------------------------------
 
 fn view_blog() -> Element(Msg) {
-  html.section([], [
-    html.h1([attribute.class("font-bold text-xl md:text-2xl xl:text-3xl")], [
-      html.text("Blog"),
-    ]),
-    html.p([attribute.class("mt-2 md:text-lg xl:text-xl")], [
-      html.text("Coming soon..."),
-    ]),
-  ])
+  let assert [post] = blog.posts()
+
+  blog.view_post(post)
 }
 
 // -----------------------------------------------------------------------------

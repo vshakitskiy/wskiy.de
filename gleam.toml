@@ -18,6 +18,7 @@ gleam_stdlib = ">= 0.44.0 and < 2.0.0"
 lustre = ">= 5.3.5 and < 6.0.0"
 gleam_javascript = ">= 1.0.0 and < 2.0.0"
 modem = ">= 2.1.1 and < 3.0.0"
+gleam_time = ">= 1.4.0 and < 2.0.0"
 
 [dev-dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"
@@ -34,12 +35,6 @@ port = 8080
 [tools.lustre.html]
 title = "wiskiy"
 links = [
-  { rel = "preload", href = "/favicon.ico", as = "image" },
-
-  { rel = "preload", href = "/fonts/monocraft.woff2", as = "font", type = "font/woff2" },
-  { rel = "preload", href = "/fonts/monocraft_semibold.woff2", as = "font", type = "font/woff2" },
-  { rel = "preload", href = "/fonts/monocraft_bold.woff2", as = "font", type = "font/woff2" },
-
   { rel = "preload", href = "/images/me.jpg", as = "image" },
 
   { rel = "preload", href = "/icons/github.svg", as = "image" },
@@ -48,4 +43,10 @@ links = [
   { rel = "preload", href = "/icons/email.svg", as = "image" },
 
   { rel = "icon", href = "/favicon.ico" },
+]
+scripts = [
+  { src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" },
+  { src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/diff.min.js" },
+  { src = "/gleam.min.js" },
+  # { content = "hljs.highlightAll();" },
 ]
