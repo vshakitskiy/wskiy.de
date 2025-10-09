@@ -10,7 +10,7 @@ pub type Post(msg) {
   Post(
     id: String,
     title: String,
-    description: String,
+    preview: List(Content),
     date: calendar.Date,
     tags: List(String),
     show: Bool,

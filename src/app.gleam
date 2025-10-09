@@ -50,6 +50,7 @@ fn view_layout(model: Model) -> Element(Msg) {
         route.Home -> view_home()
         route.Work -> view_my_work()
         route.Blog -> view_blog()
+        route.BlogPost(id) -> view_blog_post(id)
         route.Contact -> view_contact()
 
         route.NotFound -> view_not_found()
@@ -250,9 +251,23 @@ fn view_project(project: Project) {
 // -----------------------------------------------------------------------------
 
 fn view_blog() -> Element(Msg) {
-  let assert [post] = blog.posts()
+  let posts = blog.list_posts()
 
-  blog.view_post(post)
+  html.section([], [
+    html.h1([attribute.class("font-bold text-xl md:text-2xl xl:text-3xl")], [
+      html.text("My writings"),
+    ]),
+    blog.view_posts_preview(posts),
+  ])
+}
+
+fn view_blog_post(id: String) -> Element(Msg) {
+  let post = blog.get_post(id)
+
+  case post {
+    Ok(post) -> blog.view_post(post)
+    Error(_) -> view_blog_not_found()
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -373,6 +388,26 @@ fn view_not_found() -> Element(Msg) {
       ],
       [
         html.text("<-- Home"),
+      ],
+    ),
+  ])
+}
+
+fn view_blog_not_found() -> Element(Msg) {
+  html.section([], [
+    html.h1([attribute.class("font-bold text-3xl md:text-4xl")], [
+      html.text("404"),
+    ]),
+    html.p([attribute.class("mt-2 md:text-lg xl:text-xl")], [
+      html.text("Blog post not found. You're definitely lost!"),
+    ]),
+    html.a(
+      [
+        attribute.href("/blog"),
+        attribute.class("text-detail md:text-lg xl:text-xl"),
+      ],
+      [
+        html.text("<-- Back to blogs"),
       ],
     ),
   ])

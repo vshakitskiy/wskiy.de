@@ -4,6 +4,7 @@ pub type Route {
   Home
   Work
   Blog
+  BlogPost(id: String)
   Contact
 
   NotFound
@@ -14,6 +15,7 @@ pub fn from_uri(uri: uri.Uri) -> Route {
     [] -> Home
     ["work"] -> Work
     ["blog"] -> Blog
+    ["blog", id] -> BlogPost(id)
     ["contact"] -> Contact
 
     _ -> NotFound

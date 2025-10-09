@@ -7,9 +7,13 @@ pub fn post() {
   post.Post(
     id: "test_post",
     title: "Test Post",
-    description: "This is a test post",
-    date: calendar.Date(day: 1, month: calendar.January, year: 2021),
-    tags: ["gleam", "test", "lorem ipsum"],
+    preview: [
+      post.Text(
+        "This is a temporary test post with some lorem ipsum text. You can read it to see how the blog post and its components will look like.",
+      ),
+    ],
+    date: calendar.Date(day: 9, month: calendar.October, year: 2025),
+    tags: ["test", "lorem ipsum"],
     show: True,
     view: view(),
   )
