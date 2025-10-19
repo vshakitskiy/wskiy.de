@@ -24,11 +24,26 @@
   src: url("/fonts/monocraft_bold.woff2") format("woff2");
 }
 
+@font-face {
+  font-family: "0xProto";
+  src: url("/fonts/0xproto.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "0xProto";
+  src: url("/fonts/0xproto_bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
 
 
 @theme {
   --font-monocraft: "Monocraft", monospace;
-  --font-desyrel: "Desyrel", cursive;
+  --font-0xproto: "0xProto", monospace;
 
 
   --breakpoint-xs: 360px;
@@ -42,7 +57,7 @@
   --color-code-comment: rgb(133, 146, 149);
   --color-code-keyword: rgb(77, 70, 72);
   --color-code-title: rgb(229, 106, 138);
-  --color-code-variable:rgb(140, 55, 72);
+  --color-code-variable: rgb(140, 55, 72);
 }
 
 @layer base {
@@ -57,7 +72,7 @@
 
 @layer components {
   #app {
-    @apply min-h-screen flex flex-col px-4 font-monocraft max-w-5xl mx-auto;
+    @apply min-h-screen flex flex-col px-4 font-0xproto max-w-5xl mx-auto;
   }
 
   .hljs-number {

@@ -14,8 +14,4 @@ RUN caddy fmt Caddyfile --overwrite
 
 COPY --from=builder /app/dist ./dist
 
-# TODO: Remove this once lustre/dev will get a version bump
-# COPY --from=builder /app/assets/. ./dist/
-
-
 CMD ["caddy", "run", "--config", "Caddyfile", "--adapter", "caddyfile"]
