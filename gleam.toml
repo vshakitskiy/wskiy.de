@@ -45,8 +45,8 @@ links = [
   { rel = "icon", href = "/favicon.ico" },
 ]
 scripts = [
-  { src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" },
-  { src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/diff.min.js" },
+  { src = "/highlight.min.js" },
+  # { src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/diff.min.js" },
   { src = "/gleam.min.js" },
   # { content = "hljs.highlightAll();" },
 ]

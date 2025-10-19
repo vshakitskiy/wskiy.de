@@ -1,5 +1,5 @@
 import app/blog/post.{type Post}
-import app/blog/post/test_post
+import app/blog/post/making_my_own_web_server_in_gleam
 import gleam/int
 import gleam/list
 import gleam/time/calendar
@@ -8,7 +8,7 @@ import lustre/element.{type Element}
 import lustre/element/html
 
 pub fn list_posts() -> List(Post(msg)) {
-  [test_post.post()]
+  [making_my_own_web_server_in_gleam.post()]
 }
 
 pub fn get_post(id: String) -> Result(Post(msg), Nil) {
