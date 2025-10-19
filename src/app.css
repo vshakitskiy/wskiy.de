@@ -1,30 +1,6 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: "Monocraft";
-  font-style: normal;
-  font-weight: normal;
-  font-display: swap;
-  src: url("/fonts/monocraft.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Monocraft";
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("/fonts/monocraft_semibold.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Monocraft";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("/fonts/monocraft_bold.woff2") format("woff2");
-}
-
-@font-face {
   font-family: "0xProto";
   src: url("/fonts/0xproto.woff2") format("woff2");
   font-weight: normal;
@@ -38,6 +14,22 @@
   font-weight: bold;
   font-style: normal;
   font-display: swap;
+}
+
+@font-face {
+  font-family: "Monocraft";
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url("/fonts/monocraft.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Monocraft";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/monocraft_bold.woff2") format("woff2");
 }
 
 

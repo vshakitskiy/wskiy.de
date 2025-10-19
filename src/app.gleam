@@ -63,20 +63,27 @@ fn view_layout(model: Model) -> Element(Msg) {
 fn view_header() -> Element(Msg) {
   html.header([attribute.class("py-4")], [
     html.nav([], [
-      html.ul([attribute.class("flex justify-center gap-6")], [
-        html.li([], [
-          html.a([attribute.href("/")], [html.text("Home")]),
-        ]),
-        html.li([], [
-          html.a([attribute.href("/work")], [html.text("Work")]),
-        ]),
-        html.li([], [
-          html.a([attribute.href("/blog")], [html.text("Blog")]),
-        ]),
-        html.li([], [
-          html.a([attribute.href("/contact")], [html.text("Contact")]),
-        ]),
-      ]),
+      html.ul(
+        [
+          attribute.class(
+            "flex justify-around sm:max-w-md mx-auto md:text-lg xl:text-xl",
+          ),
+        ],
+        [
+          html.li([], [
+            html.a([attribute.href("/")], [html.text("Home")]),
+          ]),
+          html.li([], [
+            html.a([attribute.href("/work")], [html.text("Work")]),
+          ]),
+          html.li([], [
+            html.a([attribute.href("/blog")], [html.text("Blog")]),
+          ]),
+          html.li([], [
+            html.a([attribute.href("/contact")], [html.text("Contact")]),
+          ]),
+        ],
+      ),
     ]),
   ])
 }

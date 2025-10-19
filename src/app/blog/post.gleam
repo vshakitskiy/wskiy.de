@@ -64,7 +64,7 @@ pub fn content_to_element(content: Content) {
       html.code(
         [
           attribute.class(
-            "font-monocraft bg-code-background p-1 rounded-md overflow-x-auto",
+            "font-monocraft bg-code-background py-1 px-3 rounded-md overflow-x-auto",
           ),
         ],
         [html.text(code)],
@@ -94,7 +94,9 @@ pub fn quote(content: List(Content)) {
 
 pub fn code_block(language: String, code: String) {
   html.pre(
-    [attribute.class("bg-code-background p-2 rounded-md overflow-x-auto")],
+    [
+      attribute.class("bg-code-background p-2 rounded-md overflow-x-auto"),
+    ],
     [
       html.code(
         [
