@@ -1,7 +1,9 @@
+import gleam/int
 import gleam/list
 import gleam/option.{type Option, None, Some}
+import gleam/order.{type Order}
 import gleam/string
-import gleam/time/calendar
+import gleam/time/calendar.{type Date, Date}
 import lustre/attribute
 import lustre/element.{type Element}
 import lustre/element/html
@@ -11,11 +13,23 @@ pub type Post(msg) {
     id: String,
     title: String,
     preview: List(Content),
+    preview_text: String,
     date: calendar.Date,
     tags: List(String),
     show: Bool,
     view: Element(msg),
   )
+}
+
+pub fn compare(one: Post(msg), other: Post(msg)) -> Order {
+  let Date(year:, month:, day:) = one.date
+  let Date(year: year_other, month: month_other, day: day_other) = other.date
+
+  use <- order.lazy_break_tie(int.compare(year, year_other))
+  let month = calendar.month_to_int(month)
+  let month_other = calendar.month_to_int(month_other)
+  use <- order.lazy_break_tie(int.compare(month, month_other))
+  int.compare(day, day_other)
 }
 
 pub fn section(title: Option(String), elements: List(Element(msg))) {

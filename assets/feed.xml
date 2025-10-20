@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>wskiy.de posts feed</title>
+    <link>https://wskiy.de</link>
+    <description>My writings about programming and stuff.</description>
+    <language>en</language>
+    <pubDate>19 Oct 2025 00:00:00 GMT</pubDate>
+    <item>
+      <title>How I made my own web server in Gleam</title>
+      <link>https://wskiy.de/blog/making_my_own_web_server_in_gleam</link>
+      <description>Making a web server is a fun and challenging project. And what could be better
+        than using your favorite technology to build it?</description>
+      <author>vshakitskiy@gmail.com</author>
+      <pubDate>19 Oct 2025 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

@@ -12,6 +12,7 @@ pub fn post() {
         "Making a web server is a fun and challenging project. And what could be better than using your favorite technology to build it?",
       ),
     ],
+    preview_text: "Making a web server is a fun and challenging project. And what could be better than using your favorite technology to build it?",
     date: calendar.Date(day: 19, month: calendar.October, year: 2025),
     tags: ["gleam"],
     show: True,

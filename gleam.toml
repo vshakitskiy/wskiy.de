@@ -23,6 +23,8 @@ gleam_time = ">= 1.4.0 and < 2.0.0"
 [dev-dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"
 lustre_dev_tools = ">= 2.1.1 and < 3.0.0"
+simplifile = ">= 2.3.0 and < 3.0.0"
+filepath = ">= 1.1.2 and < 2.0.0"
 
 [tools.lustre.build]
 minify = true
@@ -43,6 +45,7 @@ links = [
   { rel = "preload", href = "/icons/email.svg", as = "image" },
 
   { rel = "icon", href = "/favicon.ico" },
+  { rel = "alternate", type = "application/rss+xml", title = "wiskiy's blog", href = "/feed.xml" },
 ]
 scripts = [
   { src = "/highlight.min.js" },
