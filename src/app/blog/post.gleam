@@ -3,7 +3,7 @@ import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/order.{type Order}
 import gleam/string
-import gleam/time/calendar.{type Date, Date}
+import gleam/time/calendar.{Date}
 import lustre/attribute
 import lustre/element.{type Element}
 import lustre/element/html
