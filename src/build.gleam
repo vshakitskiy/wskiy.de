@@ -1,3 +1,4 @@
+import app/blog
 import app/page
 import filepath
 import gleam/io
@@ -13,10 +14,10 @@ const asset_directory: String = "assets"
 const posts_directory: String = "writing"
 
 pub fn main() -> Nil {
-  let _name = ""
-  // TODO: handle blog posts
+  let assert Ok(posts) = blog.parse_posts(posts_directory)
+    as "failed to parse posts!"
 
-  let assert Ok(_nil) = build()
+  let assert Ok(_nil) = build(posts)
 
   io.println("Success!")
 }
@@ -28,7 +29,7 @@ const pages = [
   #(page.not_found, "404.html"),
 ]
 
-fn build() -> Result(Nil, simplifile.FileError) {
+fn build(posts: List(blog.Post)) -> Result(Nil, simplifile.FileError) {
   use temporary_directory <- temporary.create(temporary.directory())
 
   list.map(pages, fn(page) {
@@ -36,6 +37,23 @@ fn build() -> Result(Nil, simplifile.FileError) {
       directory: temporary_directory,
       element: page.0(),
       filename: page.1,
+    )
+  })
+
+  build_page(
+    directory: temporary_directory,
+    element: page.blog_index(posts),
+    filename: "blog.html",
+  )
+
+  let assert Ok(_nil) =
+    simplifile.create_directory(filepath.join(temporary_directory, "blog"))
+    as "failed to create blog directory!"
+  list.each(posts, fn(post) {
+    build_page(
+      directory: filepath.join(temporary_directory, "blog"),
+      element: page.blog_post(post),
+      filename: post.slug <> ".html",
     )
   })
 

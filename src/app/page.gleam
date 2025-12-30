@@ -1,3 +1,4 @@
+import app/blog
 import app/component
 import app/data.{type Project, type Social, Tag}
 import gleam/list
@@ -93,6 +94,76 @@ fn view_project(project: Project) -> Element(a) {
   ])
 }
 
+// --- Blog -------------------------------------------------------------------
+
+pub fn blog_index(posts: List(blog.Post)) -> Element(a) {
+  page(
+    title: "Blog",
+    description: "My writings about development and technology.",
+    elements: [view_blog(posts)],
+  )
+}
+
+fn view_blog(posts: List(blog.Post)) -> Element(a) {
+  html.section([], [
+    html.h1([attr.class("title")], [html.text("My Writings")]),
+    html.ul([attr.class("posts-list")], list.map(posts, view_post_preview)),
+  ])
+}
+
+fn view_post_preview(post: blog.Post) -> Element(a) {
+  html.li([attr.class("post-preview")], [
+    html.article([], [
+      html.h2([attr.class("post-title")], [html.text(post.title)]),
+      html.time([attr.class("post-date")], [html.text(post.date)]),
+      html.p(
+        [attr.class("post-tags")],
+        list.map(post.tags, fn(tag) {
+          html.span([attr.class("post-tag")], [html.text("#" <> tag)])
+        })
+          |> list.intersperse(html.text(", ")),
+      ),
+      html.p([attr.class("post-description")], [html.text(post.description)]),
+      html.a(
+        [
+          attr.href("/blog/" <> post.slug <> ".html"),
+          attr.class("post-read-more"),
+        ],
+        [html.text("Read more -->")],
+      ),
+    ]),
+  ])
+}
+
+pub fn blog_post(post: blog.Post) -> Element(a) {
+  blog_page(title: post.title, description: post.description, elements: [
+    view_blog_post(post),
+  ])
+}
+
+fn view_blog_post(post: blog.Post) -> Element(a) {
+  html.section([attr.class("blog-post")], [
+    html.a([attr.href("/blog.html"), attr.class("blog-back-link")], [
+      html.text("<-- Back to blog"),
+    ]),
+    html.hr([attr.class("blog-divider")]),
+    html.article([], [
+      html.header([attr.class("post-header")], [
+        html.h1([attr.class("title")], [html.text(post.title)]),
+        html.time([attr.class("post-date")], [html.text(post.date)]),
+        html.p(
+          [attr.class("post-tags")],
+          list.map(post.tags, fn(tag) {
+            html.span([attr.class("post-tag")], [html.text("#" <> tag)])
+          })
+            |> list.intersperse(html.text(", ")),
+        ),
+      ]),
+      html.div([attr.class("post-content")], blog.render(post)),
+    ]),
+  ])
+}
+
 // --- Contact ----------------------------------------------------------------
 
 pub fn contact() -> Element(a) {
@@ -156,6 +227,27 @@ fn page(
   description description: String,
   elements elements: List(Element(a)),
 ) -> Element(a) {
+  page_with_scripts(title:, description:, elements:, scripts: [])
+}
+
+fn blog_page(
+  title title: String,
+  description description: String,
+  elements elements: List(Element(a)),
+) -> Element(a) {
+  page_with_scripts(title:, description:, elements:, scripts: [
+    html.script([attr.src("/highlight.min.js")], ""),
+    html.script([attr.src("/gleam.min.js")], ""),
+    html.script([], "hljs.highlightAll();"),
+  ])
+}
+
+fn page_with_scripts(
+  title title: String,
+  description description: String,
+  elements elements: List(Element(a)),
+  scripts scripts: List(Element(a)),
+) -> Element(a) {
   html.html([attr.attribute("lang", "en")], [
     html.head([], [
       html.meta([attr.attribute("charset", "utf-8")]),
@@ -183,6 +275,7 @@ fn page(
       view_header(),
       html.main([attr.class("main")], elements),
       view_footer(),
+      ..scripts
     ]),
   ])
 }

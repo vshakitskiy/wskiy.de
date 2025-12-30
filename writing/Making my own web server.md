@@ -10,23 +10,23 @@ This is my first article ever. I’m not really fluent in English, and I sometim
 
 ---
 
-### Introduction
+## Introduction
 
 I have quite a lot of free time, and for the last year I noticed I was spending much of that precious time procrastinating, like watching entertainment content or just browsing TikTok. One day I realized this is not how I want to spend my final student years. So I dedicated much more time to something I was interested in: web development. For most of my college years I built simple React + Next.js + TypeScript projects and I felt like I was wasting my time on something I didn't truly enjoy. That’s when I decided to switch my career goal from frontend to backend development. All the server-side stuff was always interesting to me, but I saw it as a more difficult area. I looked at the first things people try to build and deploy on the server side, like an API, and thought: how do web frameworks even work? That’s when I set my first small goal: build my own tool for web developers to use.
 
-At that time, I was a bit of a fan of TypeScript, so my first thought was building a web framework with it. I picked Deno as a runtime and began developing `sakura`. The whole idea of the project was built around a whimsical philosophy that the web application is like a tree, and I named everything with fancy words like `branch` as a router for different routes, or `seed` as basically context for each request. The router was intended to be used as a pipe. Each router method returned the same router instance to be piped again, and middleware was applied to the next piped routes but not to the previous ones. Here’s an example of what code with Sakura looked like:
+At that time, I was a bit of a fan of *TypeScript*, so my first thought was building a web framework with it. I picked *Deno* as a runtime and began developing [*sakura*](https://github.com/vshakitskiy/sakura). The whole idea of the project was built around a whimsical philosophy that the web application is like a tree, and I named everything with fancy words like `branch` as a router for different routes, or `seed` as basically context for each request. The router was intended to be used as a pipe. Each router method returned the same router instance to be piped again, and middleware was applied to the next piped routes but not to the previous ones. Here's an example of what code with `sakura` looked like:
 
 ```tsx
 import { bloom, fall, pluck, sakura } from "@vsh/sakura"
 
 // Define the time we started the server at
-const uptime = [Date.now](http://Date.now)()
+const uptime = Date.now()
 
 // Seed is generated on every request. We can pass any utilities inside it.
 const { branch, seed } = sakura((req, cookies) => ({
   req,
   cookies,
-  runtime: [Date.now](http://Date.now)() - uptime,
+  runtime: Date.now() - uptime,
 }))
 
 // Create branch with /ping, /runtime and /secret endpoints
@@ -72,29 +72,29 @@ bloom({
 })
 ```
 
-This worked quite nicely for a simple HTTP web framework, but I was not satisfied, and I knew no one would pick Sakura as their web framework among hundreds of better options. That’s when I gave up on this project and fell off the radar for quite some time. After a few months, I changed my language preferences and stopped touching TypeScript for a while. But in the end, I still had no interesting projects to include on my resume… until recently!
+This worked quite nicely for a simple HTTP web framework, but I was not satisfied, and I knew no one would pick `sakura` as their web framework among hundreds of better options. That's when I gave up on this project and fell off the radar for quite some time. After a few months, I changed my language preferences and stopped touching TypeScript for a while. But in the end, I still had no interesting projects to include on my resume… until recently!
 
-### Developing a web server with Gleam
+## Developing a web server with Gleam
 
 While attempting to build a simple infrastructure with microservices and gRPC in Go, I realized I lacked knowledge of topics that even a beginner should know for my future role. This was concerning. If I want to be a good developer, I should know a lot about how computers work internally and how devices communicate over a network. And what could be better than studying a topic by building a cool project related to it? So I came back to build a web development tool again, but this time something more low level: a web server.
 
-Remember I said I changed my language preferences? Besides trying out Go, I’ve been actively using a statically typed functional programming language that is part of the Erlang ecosystem, called Gleam. I instantly fell in love with it, and my first thoughts were like: “Wow, it’s so simple and yet I can build everything with it!” Sure, it’s young and not as popular as other technologies, and as an intern-level student there are no job positions I can apply to related to Gleam, but I locked in on using it for my projects, or at least actively peeking into the Discord community, where people were showing cool projects they built using this language. And I wanted to post something too.
+Remember I said I changed my language preferences? Besides trying out *Go*, I've been actively using a statically typed functional programming language that is part of the *Erlang* ecosystem, called [*Gleam*](https://gleam.run). I instantly fell in love with it, and my first thoughts were like: “Wow, it’s so simple and yet I can build everything with it!” Sure, it’s young and not as popular as other technologies, and as an intern-level student there are no job positions I can apply to related to Gleam, but I locked in on using it for my projects, or at least actively peeking into the Discord community, where people were showing cool projects they built using this language. And I wanted to post something too.
 
-That’s where I decided to kill two birds with one stone: I would build a web server with Gleam while sharing the progress with the community on Discord. That is how I started working on `ewe`, the fluffy Gleam web server. Since the 1.0 release of the language happened only a year ago, the Gleam ecosystem is not strong yet, so there are a lot of opportunities to develop packages for many topics, including web servers. Right now (as far as I know, reach out to me if I’m wrong) there is only one web server for the Erlang target called `mist`. This creates a situation where everything depends on a single package, and no friendly competition pushes it toward faster and stronger progression with new features. This is something I also plan to address: create a friendly competitor that will lead to more active development on the web server side.
+That's where I decided to kill two birds with one stone: I would build a web server with *Gleam* while sharing the progress with the community on Discord. That is how I started working on [***ewe***](https://github.com/vshakitskiy/ewe), the fluffy *Gleam* web server. Since the 1.0 release of the language happened only a year ago, the *Gleam* ecosystem is not strong yet, so there are a lot of opportunities to develop packages for many topics, including web servers. Right now (as far as I know, reach out to me if I'm wrong) there is only one pure Gleam web server for the *Erlang* target called [*mist*](https://github.com/rawhat/mist). This creates a situation where everything depends on a single package, and no friendly competition pushes it toward faster and stronger progression with new features. This is something I also plan to address: create a friendly competitor that will lead to more active development on the web server side.
 
-### So, what really is a web server?
+## So, what really is a web server?
 
-To answer this, we need to understand how devices like a client and server communicate. The most popular way is via a socket. It’s a simple communication channel through which two programs communicate over a network. A server program creates a socket at a certain port, which is a particular entry point on the host computer, and waits until a client requests a connection. When the connection is established, the server creates input and output streams to the socket and begins sending and receiving messages. The client also creates a socket and attempts to make a connection to the server at the provided address and port where the service exists. In the same way as the server, it creates input and output streams to the socket. After communication, the client is usually responsible for closing the connection, though the server can also close it if needed. On top of sockets, engineers created standardized sets of rules, also known as transport protocols like TCP (Transmission Control Protocol) and UDP (User Datagram Protocol). There is a huge difference between them, and we will look at TCP since it is essential for the web, email systems, and more.
+To answer this, we need to understand how devices like a client and server communicate. The most popular way is via a *socket*. It's a simple communication channel through which two programs communicate over a network. A server program creates a socket at a certain *port*, which is a particular entry point on the host computer, and waits until a client requests a connection. When the connection is established, the server creates input and output streams to the socket and begins sending and receiving messages. The client also creates a socket and attempts to make a connection to the server at the provided address and port where the service exists. In the same way as the server, it creates input and output streams to the socket. After communication, the client is usually responsible for closing the connection, though the server can also close it if needed. On top of sockets, engineers created standardized sets of rules, also known as *transport protocols* like *TCP* (Transmission Control Protocol) and *UDP* (User Datagram Protocol). There is a huge difference between them, and we will look at *TCP* since it is essential for the web, email systems, and more.
 
-TCP is a connection-oriented protocol. It means that devices should establish a connection before transmitting data and should close the connection after transmitting all the data. It is reliable as it guarantees the delivery of data to the destination. The connection is established with a three-way handshake: SYN (Synchronize), SYN-ACK (Synchronize-Acknowledge), ACK (Acknowledge). During this handshake the client and server exchange initial sequence numbers and confirm the connection establishment. After that they are ready to send packets of data as they please. TCP is used by other popular protocols that describe the structure of requests and responses, like HTTP, which is the main gear of the whole web ecosystem we have nowadays.
+*TCP* is a connection-oriented protocol. It means that devices should establish a connection before transmitting data and should close the connection after transmitting all the data. It is reliable as it guarantees the delivery of data to the destination. The connection is established with a [*three-way handshake*](https://www.geeksforgeeks.org/computer-networks/tcp-3-way-handshake-process/). During this handshake the client and server exchange initial sequence numbers and confirm the connection establishment. After that they are ready to send packets of data as they please. *TCP* is used by other popular protocols that describe the structure of requests and responses, like *HTTP*, which is the main gear of the whole web ecosystem we have nowadays.
 
-Coming back to the question of a web server, it is a program that runs on a server device and handles requests from clients using HTTP or HTTPS. With that in mind, I will move forward on how `ewe` was built, from zero to probably production-ready software.
+Coming back to the question of a web server, it is a program that runs on a server device and handles requests from clients using *HTTP* or *HTTPS*. With that in mind, I will move forward on how *ewe* was built, from zero to probably production-ready software.
 
-### Receiving packets & parsing HTTP
+## Receiving packets & parsing HTTP
 
-I began by choosing how to work with TCP. The best option was to use the “glisten” package that provides a supervisor over a pool of socket acceptors. It also has support for TLS (Transport Layer Security), which is used for HTTPS. This way the TCP handshake and the whole connection were handled with ease, so I could work on all the interesting web server features.
+I began by choosing how to work with *TCP*. The best option was to use the [*glisten*](https://github.com/rawhat/glisten) package that provides a supervisor over a pool of *socket acceptors*. It also has support for *TLS* (Transport Layer Security), which is used for *HTTPS*. This way the *TCP* handshake and the whole connection were handled with ease, so I could work on all the interesting web server features.
 
-My first challenge was parsing received packets. I implemented my own parser to handle converting raw bytes into HTTP request parts: request line, headers, and body (including chunked transfer encoding). Here’s what the initial concept looked like:
+My first challenge was parsing received packets. I implemented my own parser to handle converting raw bytes into *HTTP* request parts: request line, headers, and body (including *chunked transfer encoding*). Here's what the initial concept looked like:
 
 ```gleam
 import gleam/bytes_tree
@@ -168,13 +168,13 @@ pub fn start(
 }
 ```
 
-One important thing to mention is that packets can arrive in fragments. You might receive “GET / H” in one packet and “TTP/1.1rn…” in the next. The parser needs to accumulate these fragments in a buffer until it has enough data to parse a complete HTTP request.
+> One important thing to mention is that packets can arrive in fragments. You might receive `"GET / H"` in one packet and `"TTP/1.1\r\n…"` in the next. The parser needs to accumulate these fragments in a buffer until it has enough data to parse a complete *HTTP* request.
 
-This parser worked for basic test cases, but I quickly realized it had problems. For example, the parser wasn’t following best practices as I was implementing my own HTTP request type instead of using the official `gleam_http` package that is used in every Gleam project related to HTTP. Also, with that parser logic, the whole request body was loaded into memory. What if there is a very big body stream? Or what if the request handler doesn't need to read the body at all? That could lead to the parser wasting too much time on a single request. With quick brainstorming and suggestions from the Gleam community, I learned better approaches and refactored everything.
+This parser worked for basic test cases, but I quickly realized it had problems. For example, the parser wasn't following best practices as I was implementing my own *HTTP* request type instead of using the official [*gleam\_http*](https://github.com/gleam-lang/http) package that is used in every Gleam project related to *HTTP*. Also, with that parser logic, the whole request body was loaded into memory. What if there is a very big body stream? Or what if the request handler doesn't need to read the body at all? That could lead to the parser wasting too much time on a single request. With quick brainstorming and suggestions from the Gleam community, I learned better approaches and refactored everything.
 
-### Refactoring the whole codebase
+## Refactoring the whole codebase
 
-Gleam is great because we can use external functions and types from the runtime. Since Gleam compiles to Erlang, we can use its battle-tested functions directly. Instead of writing my own HTTP parser (which was slow and buggy), I discovered `erlang:decode_packet`, which has been used for parsing HTTP for decades. It is incredibly efficient and handles HTTP edge cases I hadn’t even thought about. In the end, I built a wrapper on top of it to make the function work nicely with Gleam:
+Gleam is great because we can use external functions and types from the runtime. Since Gleam compiles to *Erlang*, we can use its battle-tested functions directly. Instead of writing my own *HTTP* parser (which was slow and buggy), I discovered [`erlang:decode_packet`](https://www.erlang.org/doc/apps/erts/erlang.html#decode_packet/3), which has been used for parsing *HTTP* for decades. It is incredibly efficient and handles *HTTP* edge cases I hadn't even thought about. In the end, I built a wrapper on top of it to make the function work nicely with Gleam:
 
 ```erlang
 % Finalized version used in v1 of ewe
@@ -203,9 +203,9 @@ decode_packet(Type, Packet, Options) ->
   end.
 ```
 
-Another major change was inspired by how the `mist` web server handles the request body. Instead of loading the entire body into memory, I exposed an internal `Connection` type to the user:
+Another major change was inspired by how the *mist* web server handles the request body. Instead of loading the entire body into memory, I exposed an internal *Connection* type to the user:
 
-```rust
+```gleam
 pub type Connection {
   Connection(
     transport: Transport,
@@ -215,15 +215,15 @@ pub type Connection {
 }
 ```
 
-Users can call a function like `ewe.read_body(req, 1024)` to read 1 KB, or ignore the body entirely for requests that don’t need it. This also opens opportunities for protocol upgrades to WebSocket, for example.
+Users can call a function like `ewe.read_body(req, 1024)` to read 1 KB, or ignore the body entirely for requests that don't need it. This also opens opportunities for protocol upgrades to *WebSocket*, for example.
 
-After expanding the API with helper functions and polishing the codebase, I released version 0.3, which was the initial version I shared with the Gleam community. I received supportive comments from Gleam team members as well as the creator of the `mist` web server. I’m the kind of person who really loves attention, so this gave me huge motivation to make my package better and better. After some time, I implemented keep-alive behavior that allows the client to reuse the connection when it’s appropriate, which allows my web server to support HTTP/1.1. I knew that a simple HTTP/1.0 & HTTP/1.1 server was relatively straightforward to implement, so the next thing I did was level up the difficulty and move toward implementing a protocol I had zero internal knowledge about: WebSockets.
+After expanding the API with helper functions and polishing the codebase, I released version 0.3, which was the initial version I shared with the Gleam community. I received supportive comments from Gleam team members as well as the creator of the `mist` web server. I'm the kind of person who really loves attention, so this gave me huge motivation to make my package better and better. After some time, I implemented [*keep-alive*](https://en.wikipedia.org/wiki/HTTP_persistent_connection) behavior that allows the client to reuse the connection when it's appropriate, which allows my web server to support *HTTP/1.1*. I knew that a simple *HTTP/1.0* & *HTTP/1.1* server was relatively straightforward to implement, so the next thing I did was level up the difficulty and move toward implementing a protocol I had zero internal knowledge about: *WebSockets*.
 
-### WebSockets
+## WebSockets
 
-WebSocket is a protocol that provides a bidirectional communication channel over a single TCP connection, making it possible for a client to send messages to a server and receive responses without having to poll the server for a reply. It’s built on top of HTTP and requires quite a lot of steps to create a fully compliant implementation.
+*WebSocket* is a protocol that provides a bidirectional communication channel over a single *TCP* connection, making it possible for a client to send messages to a server and receive responses without having to poll the server for a reply. It's built on top of *HTTP* and requires quite a lot of steps to create a fully compliant implementation.
 
-The process starts with an HTTP handshake request that looks like this:
+The process starts with an *HTTP* handshake request that looks like this:
 
 ```
 GET / HTTP/1.1
@@ -234,7 +234,7 @@ Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
 Sec-WebSocket-Version: 13
 ```
 
-It indicates that the connection is going to be upgraded to the WebSocket protocol. There is also a special WebSocket key, which is used later to send a response with the `Sec-WebSocket-Accept` header:
+It indicates that the connection is going to be upgraded to the *WebSocket* protocol. There is also a special *WebSocket* key, which is used later to send a response with the `Sec-WebSocket-Accept` header:
 
 ```
 HTTP/1.1 101 Switching Protocols
@@ -243,11 +243,11 @@ Connection: Upgrade
 Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
 ```
 
-The goal is to make the server accept connections that were specifically intended to be WebSocket connections. The `Sec-WebSocket-Accept` value isn’t random. It’s derived by taking the client’s key, appending the magic string, hashing, and encoding the result.
+The goal is to make the server accept connections that were specifically intended to be *WebSocket* connections. The `Sec-WebSocket-Accept` value isn't random. It's derived by taking the client's key, appending the [*magic string*](https://en.wikipedia.org/wiki/Magic_string), hashing, and encoding the result.
 
-After the handshake, here’s where it gets tricky. WebSocket messages arrive as frames, structured packets that can be text, binary, ping/pong, or close signals. It’s important to mention that a single message can be split across multiple frames. So I needed a way to continuously read from the socket and handle these frames.
+After the handshake, here's where it gets tricky. *WebSocket* messages arrive as *frames*, structured packets that can be text, binary, ping/pong, or close signals. It's important to mention that a single message can be split across multiple frames. So I needed a way to continuously read from the socket and handle these frames.
 
-The first thing is reading from TCP. The solution was using a simple trick that I learned by looking at internal files of the glisten package:
+The first thing is reading from *TCP*. The solution was using a simple trick that I learned by looking at internal files of the `glisten` package:
 
 ```gleam
 pub type ValidGlistenMessage {
@@ -288,9 +288,9 @@ fn glisten_selector() {
 }
 ```
 
-In Erlang, when data arrives on a TCP socket, the runtime sends a message to a controlling process in a format like `{tcp, Socket, Data}`. The `process.select_record` helps us intercept these messages.
+In *Erlang*, when data arrives on a *TCP* socket, the runtime sends a message to a controlling process in a format like `{tcp, Socket, Data}`. The [`process.select_record`](https://hexdocs.pm/gleam_erlang/gleam/erlang/process.html#select_record) function helps us intercept these messages.
 
-With the selector in place, I created an actor to manage each connection:
+With the selector in place, I created an *actor* to manage each connection:
 
 ```gleam
 pub fn start(
@@ -323,7 +323,7 @@ pub fn start(
 }
 ```
 
-WebSocket frames have a complex structure. They include opcodes, masking information, and more. Thanks to the `gramps` package, I didn’t have to implement all the bit manipulation myself and could focus on handling parsed frames:
+*WebSocket* frames have a complex structure. They include *opcodes*, masking information, and more. Thanks to the [*gramps*](https://github.com/rawhat/gramps) package, I didn't have to implement all the bit manipulation myself and could focus on handling parsed *WebSocket* frames:
 
 ```gleam
 fn loop_by_frames(
@@ -373,11 +373,11 @@ fn loop_by_frames(
 }
 ```
 
-After implementing a simple WebSocket server, I managed to support custom user state, custom messages, and permessage-deflate (also thanks to `gramps`). The public API of WebSocket became clearer, with support for sending frames back to the client. Then I moved forward to polish everything I had, making sure the API was not overcomplicated and the protocols followed the requirements.
+After implementing a simple *WebSocket* server, I managed to support custom user state, custom messages, and *permessage-deflate* (also thanks to `gramps`). The public API of *WebSocket* became clearer, with support for sending frames back to the client. Then I moved forward to polish everything I had, making sure the API was not overcomplicated and the protocols followed the requirements.
 
-### Making web server even better
+## Making web server even better
 
-Getting the protocols working was only half the battle. Making the protocols follow their specifications and polishing the API was harder. For example, each response from the user handler should contain `ResponseBody`. At first, it was an opaque type, and there were constructors for each case, like `ewe.text` or `ewe.string_tree`. They set the response body from different Gleam types, as well as the required headers. The flow for a user would be:
+Getting the protocols working was only half the battle. Making the protocols follow their specifications and polishing the API was harder. For example, each response from the user handler should contain *ResponseBody*. At first, it was an *opaque type*, and there were constructors for each case, like `ewe.text` or `ewe.string_tree`. They set the response body from different Gleam types, as well as the required headers. The flow for a user would be:
 
 ```gleam
 fn handle_request(req: Request(ewe.Connection)) -> Response(ewe.ResponseBody) {
@@ -392,7 +392,7 @@ fn handle_request(req: Request(ewe.Connection)) -> Response(ewe.ResponseBody) {
 }
 ```
 
-It was very convenient, but it was more of a web framework function than a web server function. The web server’s role is to provide a minimal interface. With that in mind, I removed every abstraction on top of `ResponseBody`, so that the user handles everything outside the web server logic:
+It was very convenient, but it was more of a web framework function than a web server function. The web server's role is to provide a minimal interface. With that in mind, I removed every abstraction on top of *ResponseBody*, so that the user handles everything outside the web server logic:
 
 ```gleam
 fn handle_request(req: Request(ewe.Connection)) -> Response(ewe.ResponseBody) {
@@ -408,7 +408,7 @@ fn handle_request(req: Request(ewe.Connection)) -> Response(ewe.ResponseBody) {
 }
 ```
 
-I also made sure HTTP/1.1 RFC specifications were followed, like validation of HTTP fields, as this can prevent header injection attacks from malicious clients:
+I also made sure [*HTTP/1.1 RFC*](https://www.rfc-editor.org/rfc/rfc9110.html) specifications were followed, like [validation of *HTTP* fields](https://www.rfc-editor.org/rfc/rfc9110.html#name-field-values), as this can prevent *header injection* attacks from malicious clients:
 
 ```erlang
 % HTTP field values can contain:
@@ -430,13 +430,13 @@ do_validate_field_value(Value) ->
   end.
 ```
 
-As for WebSockets, [Louis Pilfold](https://lpil.uk/), creator of Gleam, advised trying Autobahn on the WebSocket implementation ([https://websocket.org/guides/testing/autobahn/](https://websocket.org/guides/testing/autobahn/)). This test suite was brutal but educational, as it helped me uncover issues in my WebSocket implementation, such as fragmented control frames (which are not allowed by the specs) or ping frames over 125 bytes. I even opened a PR to the `gramps` package to fix some important internal issues ([https://github.com/rawhat/gramps/pull/7](https://github.com/rawhat/gramps/pull/7)). I was so proud of myself when all 400+ tests showed a green “OK” status — such a blessing to a developer’s eyes!
+As for *WebSockets*, [Louis Pilfold](https://lpil.uk/), creator of Gleam, advised trying *[Autobahn](https://websocket.org/guides/testing/autobahn/)* on the *WebSocket* implementation. This test suite was brutal but educational, as it helped me uncover issues in my *WebSocket* implementation, such as *fragmented control frames* (which are not allowed by the specs) or *ping frames* over 125 bytes. I even opened a [PR](https://github.com/rawhat/gramps/pull/7) to the `gramps` package to fix some important internal issues. I was so proud of myself when all 400+ tests showed a green "OK" status — such a blessing to a developer's eyes!
 
 While I was doing this project, I was talking with my college professors about how I wanted to make the web server my final year diploma thesis. Since I’m in computer science, specifically backend development, the project idea fit perfectly.
 
-After I was done with WebSocket, I decided to benchmark `ewe` against other web servers. I was not expecting high numbers, just hoping it would be good enough in comparison with popular servers. I was shocked when I realized that according to my benchmark it is pretty fast! (Note that this was run on my homelab in one of the hosted virtual machines and results could be inaccurate.)
+After I was done with *WebSocket*, I decided to benchmark *ewe* against other web servers. I was not expecting high numbers, just hoping it would be good enough in comparison with popular servers. I was shocked when I realized that according to [my benchmark](https://github.com/vshakitskiy/ewe_http_benchmark) it is pretty fast! (Note that this was run on my homelab in one of the hosted virtual machines and results could be inaccurate.)
 
-However, I had completely forgotten an important detail: a response from the server should include a `Date` header if the server has a clock. Of course, in modern realities almost every device has a clock, so the `Date` header must be implemented. `ewe` implements it the same way as `mist`: a separate application that manages time calculation.
+However, I had completely forgotten an important detail: a response from the server should include a `Date` header if the server has a clock. Of course, in modern realities almost every device has a clock, so the `Date` header must be implemented. *ewe* implements it the same way as *mist*: a separate *application* that manages time calculation.
 
 ```gleam
 type Message {
@@ -487,13 +487,13 @@ pub fn get_http_date() -> String {
 
 ```
 
-With the clock actor, the web server naturally became a bit slower since it required more internal steps, but it still held its own and performed at a similar speed to `mist`! That was exciting!
+With the *clock actor*, the web server naturally became a bit slower since it required more internal steps, but it still held its own and performed at a similar speed to *mist*! That was exciting!
 
-Finally, in the middle of September, I announced the first release candidate in a Discord channel dedicated to `ewe`. I received some feedback, as well as some internal bug reports, which I quickly fixed. Then I moved forward to the final feature before the official release: Server-Sent Events.
+Finally, in the middle of September, I announced the first release candidate in a Discord channel dedicated to *ewe*. I received some feedback, as well as some internal bug reports, which I quickly fixed. Then I moved forward to the final feature before the official release: *Server-Sent Events*.
 
-### Server-Sent Event
+## Server-Sent Event
 
-Server-Sent Events is a server push technology that enables a client to receive updates from a server via an HTTP connection. It’s like WebSocket, but it’s only a one-way connection, meaning clients can’t send events to a server. There’s also an interesting feature: if the connection drops, clients like browsers automatically try to reconnect. The protocol itself is pretty elegant. Here’s an example of the flow:
+*Server-Sent Events* is a server push technology that enables a client to receive updates from a server via an *HTTP* connection. It's like *WebSocket*, but it's only a one-way connection, meaning clients can't send events to a server. There's also an interesting feature: if the connection drops, clients like browsers automatically try to reconnect. The protocol itself is pretty elegant. Here's an example of the flow:
 
 ```
 HTTP/1.1 200 OK
@@ -509,7 +509,7 @@ data: You can also split messages
 data: across multiple data lines
 ```
 
-After implementing WebSocket, making Server-Sent Events was an easy task. I reused almost everything I learned during its development:
+After implementing *WebSocket*, making *Server-Sent Events* was an easy task. I reused almost everything I learned during its development:
 
 ```gleam
 pub type SSEMessages(user_message) {
@@ -531,7 +531,7 @@ fn create_socket_selector(
 }
 ```
 
-The selector doesn’t listen for general `tcp`/`ssl` events, as the client will never send any messages to our server. Then I created an actor that handled these messages:
+The selector doesn't listen for general `tcp`/`ssl` events, as the client will never send any messages to our server. Then I created an *actor* that handled these messages:
 
 ```gleam
 pub fn start(
@@ -593,14 +593,14 @@ pub fn start(
 }
 ```
 
-I built a simple real-time chat to test it: clients connect to an SSE endpoint, and when anyone POSTs a message, it broadcasts to all connected clients. It worked almost on the first try, which felt amazing after the struggles with WebSocket.
+I built a simple [real-time chat](https://github.com/vshakitskiy/ewe/tree/mistress/examples/sse) to test it: clients connect to an *SSE* endpoint, and when anyone POSTs a message, it broadcasts to all connected clients. It worked almost on the first try, which felt amazing after the struggles with *WebSocket*.
 
-### What’s Next?
+## What's Next?
 
-With version 1.0 released, `ewe` supports HTTP/1.0, HTTP/1.1, WebSockets, and Server-Sent Events. It handles streaming request bodies, chunked responses, and file streaming. For a v1, this is a great start. The next goal is getting `ewe` integrated into Wisp, Gleam’s most popular web framework. Right now it’s only working with `mist`, but I already opened a PR to include `ewe` as another web server provider.
+With version 1.0 released, *ewe* supports *HTTP/1.0*, *HTTP/1.1*, *WebSockets*, and *Server-Sent Events*. It handles *streaming request bodies*, *chunked responses*, and *file streaming*. For a v1, this is a great start. The next goal is getting *ewe* integrated into [*Wisp*](https://github.com/gleam-wisp/wisp), Gleam's most popular web framework. Right now it's only working with *mist*, but I already [opened a PR](https://github.com/gleam-wisp/wisp/pull/146) to include *ewe* as another web server provider.
 
-Then, there’s HTTP/2. Honestly, it is a completely different beast, and I think it will take some time just to understand the specification, let alone implement it correctly. But it’s not impossible. I will slowly make it real, so no worries here.
+Then, there's *HTTP/2*. Honestly, it is a completely different beast, and I think it will take some time just to understand the specification, let alone implement it correctly. But it's not impossible. I will slowly make it real, so no worries here.
 
 ---
 
-During the development of my web server I learned a lot about Gleam itself, as well as networks and protocols. I really want to express a huge thank you for all the support and suggestions I received from the Gleam community during development. This is the warmest and most active place I’ve ever encountered, and I will continue to promote and use Gleam as my most loved technology ever.
+During the development of my web server I learned a lot about Gleam itself, as well as networks and protocols. I really want to express a huge thank you for all the support and suggestions I received from the Gleam community during development. This is the warmest and most active [place](https://gleam.run/community/) I've ever encountered, and I will continue to promote and use Gleam as my most loved technology ever.
