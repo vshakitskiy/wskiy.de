@@ -1,0 +1,443 @@
+:root {
+  /* Fonts */
+  --font-mono: "0xProto", monospace;
+  --font-display: "Monocraft", monospace;
+
+  /* Font Weights */
+  --weight-normal: 400;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Font Sizes */
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+
+  /* Sizes */
+  --size-icon: 1.25rem;
+  --size-profile: 15rem;
+
+  /* Max Widths */
+  --max-w-nav: 28rem;
+  --max-w-content: 28rem;
+  --max-w-container: 64rem;
+
+  /* Border Radius */
+  --radius-md: 0.375rem;
+
+  /* Colors */
+  --color-bg: rgb(255, 227, 232);
+  --color-text: rgb(53, 32, 36);
+  --color-muted: rgb(120, 113, 108);
+  --color-accent: rgb(255, 134, 156);
+
+  /* Code Colors */
+  --color-code-bg: rgb(255, 206, 217);
+  --color-code-number: rgb(247, 79, 129);
+  --color-code-string: rgb(247, 79, 129);
+  --color-code-comment: rgb(133, 146, 149);
+  --color-code-keyword: rgb(77, 70, 72);
+  --color-code-title: rgb(229, 106, 138);
+  --color-code-variable: rgb(140, 55, 72);
+
+  /* Responsive Typography */
+  --title-size: var(--text-xl);
+  --subtitle-size: var(--text-lg);
+  --body-size: var(--text-base);
+  --small-size: var(--text-sm);
+}
+
+/* ---- Responsive Tokens --------------------------------------------------- */
+
+@media (min-width: 768px) {
+  :root {
+    --title-size: var(--text-2xl);
+    --subtitle-size: var(--text-xl);
+    --body-size: var(--text-lg);
+    --size-icon: 1.5rem;
+    --max-w-content: 36rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --title-size: var(--text-3xl);
+    --subtitle-size: var(--text-2xl);
+    --body-size: var(--text-xl);
+    --max-w-content: 42rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  :root {
+    --max-w-content: 48rem;
+  }
+}
+
+/* ---- Fonts --------------------------------------------------------------- */
+
+@font-face {
+  font-family: "0xProto";
+  src: url("/fonts/0xproto.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "0xProto";
+  src: url("/fonts/0xproto_bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monocraft";
+  src: url("/fonts/monocraft.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monocraft";
+  src: url("/fonts/monocraft_bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---- Base / Reset -------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  min-height: 100vh;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-inline: var(--space-4);
+  max-width: var(--max-w-container);
+  margin-inline: auto;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+figure {
+  margin: 0;
+}
+
+address {
+  font-style: normal;
+}
+
+/* ---- Layout -------------------------------------------------------------- */
+
+.main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---- Header & Navigation ------------------------------------------------- */
+
+.header {
+  padding-block: var(--space-4);
+}
+
+.nav-list {
+  display: flex;
+  justify-content: space-around;
+  max-width: var(--max-w-nav);
+  margin-inline: auto;
+  font-size: var(--body-size);
+}
+
+/* ---- Footer -------------------------------------------------------------- */
+
+.footer {
+  padding-block: var(--space-4);
+}
+
+.footer-text {
+  text-align: center;
+  font-size: var(--small-size);
+  color: var(--color-muted);
+}
+
+.footer-link {
+  text-decoration: underline;
+}
+
+/* ---- Typography ---------------------------------------------------------- */
+
+.title {
+  font-weight: var(--weight-bold);
+  font-size: var(--title-size);
+  line-height: var(--leading-tight);
+}
+
+.subtitle {
+  font-weight: var(--weight-semibold);
+  font-size: var(--subtitle-size);
+  line-height: var(--leading-relaxed);
+}
+
+.description {
+  margin-top: var(--space-4);
+  text-align: justify;
+  line-height: var(--leading-normal);
+  font-size: var(--body-size);
+  max-width: var(--max-w-content);
+}
+
+/* ---- Home Section -------------------------------------------------------- */
+
+.home-section {
+  display: block;
+}
+
+@media (min-width: 640px) {
+  .home-section {
+    display: flex;
+    gap: var(--space-6);
+  }
+}
+
+.profile-image {
+  border-radius: var(--radius-md);
+  width: var(--size-profile);
+  height: var(--size-profile);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --size-profile: 12.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --size-profile: 15rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --size-profile: 20rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --size-profile: 22.5rem;
+  }
+}
+
+.profile-info {
+  margin-top: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .profile-info {
+    flex: 1;
+    margin-top: var(--space-0);
+  }
+}
+
+/* ---- Links & Tags -------------------------------------------------------- */
+
+.tag {
+  color: var(--color-accent);
+}
+
+.home-link {
+  color: var(--color-accent);
+  font-size: var(--body-size);
+}
+
+/* ---- Icon ---------------------------------------------------------------- */
+
+.icon {
+  width: var(--size-icon);
+  height: var(--size-icon);
+}
+
+/* ---- Projects Section ---------------------------------------------------- */
+
+.projects-list {
+  margin-top: var(--space-4);
+}
+
+.project-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+@media (min-width: 768px) {
+  .project-header {
+    gap: var(--space-3);
+  }
+}
+
+.github-link {
+  display: block;
+}
+
+.project-description {
+  text-align: justify;
+  line-height: var(--leading-normal);
+  font-size: var(--body-size);
+  max-width: var(--max-w-content);
+}
+
+.project-tags {
+  margin-top: var(--space-2);
+  font-size: var(--body-size);
+}
+
+/* ---- Contact Section ----------------------------------------------------- */
+
+.contact-description {
+  margin-top: var(--space-2);
+  text-align: justify;
+  line-height: var(--leading-normal);
+  font-size: var(--body-size);
+  max-width: var(--max-w-content);
+}
+
+.socials-list {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: var(--max-w-content);
+}
+
+@media (min-width: 640px) {
+  .socials-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+}
+
+.social-item {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .social-item {
+    width: 49%;
+  }
+}
+
+.social-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.social-name {
+  font-size: var(--body-size);
+}
+
+.social-link {
+  display: block;
+  text-decoration: underline;
+  color: var(--color-accent);
+  font-size: var(--body-size);
+}
+
+/* ---- 404 Section --------------------------------------------------------- */
+
+.error-title {
+  font-weight: var(--weight-bold);
+  font-size: var(--text-3xl);
+  line-height: var(--leading-tight);
+}
+
+@media (min-width: 768px) {
+  .error-title {
+    font-size: var(--text-4xl);
+  }
+}
+
+.error-text {
+  margin-top: var(--space-2);
+  font-size: var(--body-size);
+}
+
+/* ---- Syntax Highlighting ------------------------------------------------- */
+
+.hljs-number {
+  color: var(--color-code-number);
+}
+
+.hljs-string {
+  color: var(--color-code-string);
+}
+
+.hljs-comment {
+  color: var(--color-code-comment);
+}
+
+.hljs-keyword,
+.hljs-built_in,
+.hljs-operator {
+  color: var(--color-code-keyword);
+}
+
+.hljs-title {
+  color: var(--color-code-title);
+}
+
+.hljs-variable {
+  color: var(--color-code-variable);
+}
