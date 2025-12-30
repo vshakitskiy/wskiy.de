@@ -271,7 +271,7 @@ fn dest_to_href(dest: document.Destination) -> String {
 // --- Utilities --------------------------------------------------------------
 
 fn slugify(text: String) -> String {
-  let allowed = "abcdefghijklmnopqrstuvwxyz0123456789-"
+  let allowed = "abcdefghijklmnopqrstuvwxyz0123456789-_"
 
   text
   |> string.lowercase
