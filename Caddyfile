@@ -21,7 +21,7 @@
 
 	encode gzip
 
-	file_server
+	try_files {path} {path}/index.html {path}.html /404.html
 
-	try_files {path} {path}.html /404.html
+	file_server
 }

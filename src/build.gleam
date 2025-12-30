@@ -64,8 +64,7 @@ fn build(posts: List(blog.Post)) -> Result(Nil, simplifile.FileError) {
   let assert Ok(_nil) =
     simplifile.copy_directory(at: asset_directory, to: temporary_directory)
     as "failed to copy assets!"
-  let assert Ok(_nil) = simplifile.delete(out_directory)
-    as "failed to delete out directory!"
+  let _ = simplifile.delete(out_directory)
   let assert Ok(_nil) = simplifile.create_directory(out_directory)
     as "failed to create out directory!"
   let assert Ok(_nil) =

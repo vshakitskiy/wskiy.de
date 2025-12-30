@@ -126,7 +126,7 @@ fn view_post_preview(post: blog.Post) -> Element(a) {
       html.p([attr.class("post-description")], [html.text(post.description)]),
       html.a(
         [
-          attr.href("/blog/" <> post.slug <> ".html"),
+          attr.href("/blog/" <> post.slug),
           attr.class("post-read-more"),
         ],
         [html.text("Read more -->")],
@@ -143,7 +143,7 @@ pub fn blog_post(post: blog.Post) -> Element(a) {
 
 fn view_blog_post(post: blog.Post) -> Element(a) {
   html.section([attr.class("blog-post")], [
-    html.a([attr.href("/blog.html"), attr.class("blog-back-link")], [
+    html.a([attr.href("/blog"), attr.class("blog-back-link")], [
       html.text("<-- Back to blog"),
     ]),
     html.hr([attr.class("blog-divider")]),
@@ -285,10 +285,10 @@ fn view_header() -> Element(a) {
     html.nav([attr.attribute("aria-label", "Main navigation")], [
       html.ul([attr.class("nav-list")], [
         html.li([], [html.a([attr.href("/")], [html.text("Home")])]),
-        html.li([], [html.a([attr.href("/work.html")], [html.text("Work")])]),
-        html.li([], [html.a([attr.href("/blog.html")], [html.text("Blog")])]),
+        html.li([], [html.a([attr.href("/work")], [html.text("Work")])]),
+        html.li([], [html.a([attr.href("/blog")], [html.text("Blog")])]),
         html.li([], [
-          html.a([attr.href("/contact.html")], [html.text("Contact")]),
+          html.a([attr.href("/contact")], [html.text("Contact")]),
         ]),
       ]),
     ]),

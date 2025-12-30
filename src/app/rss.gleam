@@ -37,7 +37,7 @@ pub fn from_posts(posts: List(Post)) -> Element(a) {
 fn to_item(post: Post) -> Element(a) {
   element("item", [], [
     element("title", [], [html.text(post.title)]),
-    link("https://wskiy.de/blog/" <> post.slug <> ".html"),
+    link("https://wskiy.de/blog/" <> post.slug),
     element("description", [], [html.text(post.description)]),
     element("author", [], [html.text("vshakitskiy@gmail.com")]),
     element("pubDate", [], [html.text(to_rss_date(post.date))]),
