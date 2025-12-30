@@ -128,6 +128,30 @@
   font-display: swap;
 }
 
+/* ---- Animations ---------------------------------------------------------- */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ---- Base / Reset -------------------------------------------------------- */
 
 *,
@@ -159,6 +183,7 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 ul {
@@ -185,6 +210,7 @@ address {
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: fade-in 0.5s ease-out;
 }
 
 /* ---- Header & Navigation ------------------------------------------------- */
@@ -201,6 +227,31 @@ address {
   font-size: var(--body-size);
 }
 
+.nav-list a {
+  position: relative;
+  padding-bottom: var(--space-1);
+}
+
+.nav-list a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-accent);
+  transition: width 0.25s ease, left 0.25s ease;
+}
+
+.nav-list a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+.nav-list a:hover {
+  color: var(--color-accent);
+}
+
 /* ---- Footer -------------------------------------------------------------- */
 
 .footer {
@@ -215,6 +266,11 @@ address {
 
 .footer-link {
   text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--color-accent);
 }
 
 /* ---- Typography ---------------------------------------------------------- */
@@ -256,6 +312,7 @@ address {
   border-radius: var(--radius-md);
   width: var(--size-profile);
   height: var(--size-profile);
+  animation: fade-in 0.5s ease-out;
 }
 
 @media (min-width: 640px) {
@@ -284,6 +341,7 @@ address {
 
 .profile-info {
   margin-top: var(--space-3);
+  animation: fade-in-up 0.5s ease-out 0.2s backwards;
 }
 
 @media (min-width: 640px) {
@@ -297,11 +355,21 @@ address {
 
 .tag {
   color: var(--color-accent);
+  transition: opacity 0.2s ease;
+}
+
+.tag:hover {
+  opacity: 0.7;
 }
 
 .home-link {
   color: var(--color-accent);
   font-size: var(--body-size);
+  transition: opacity 0.2s ease;
+}
+
+.home-link:hover {
+  opacity: 0.7;
 }
 
 /* ---- Icon ---------------------------------------------------------------- */
@@ -317,6 +385,16 @@ address {
   margin-top: var(--space-4);
 }
 
+.projects-list > li {
+  animation: fade-in-up 0.4s ease-out backwards;
+}
+
+.projects-list > li:nth-child(1) { animation-delay: 0.1s; }
+.projects-list > li:nth-child(2) { animation-delay: 0.2s; }
+.projects-list > li:nth-child(3) { animation-delay: 0.3s; }
+.projects-list > li:nth-child(4) { animation-delay: 0.4s; }
+.projects-list > li:nth-child(5) { animation-delay: 0.5s; }
+
 .project-header {
   display: flex;
   align-items: center;
@@ -331,6 +409,12 @@ address {
 
 .github-link {
   display: block;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.github-link:hover {
+  transform: scale(1.15);
+  opacity: 0.8;
 }
 
 .project-description {
@@ -373,7 +457,15 @@ address {
 
 .social-item {
   width: 100%;
+  animation: fade-in-up 0.4s ease-out backwards;
 }
+
+.social-item:nth-child(1) { animation-delay: 0.1s; }
+.social-item:nth-child(2) { animation-delay: 0.15s; }
+.social-item:nth-child(3) { animation-delay: 0.2s; }
+.social-item:nth-child(4) { animation-delay: 0.25s; }
+.social-item:nth-child(5) { animation-delay: 0.3s; }
+.social-item:nth-child(6) { animation-delay: 0.35s; }
 
 @media (min-width: 640px) {
   .social-item {
@@ -396,6 +488,11 @@ address {
   text-decoration: underline;
   color: var(--color-accent);
   font-size: var(--body-size);
+  transition: opacity 0.2s ease;
+}
+
+.social-link:hover {
+  opacity: 0.7;
 }
 
 /* ---- Blog Section -------------------------------------------------------- */
@@ -407,6 +504,16 @@ address {
   gap: var(--space-4);
   max-width: var(--max-w-content);
 }
+
+.posts-list > li {
+  animation: fade-in-up 0.4s ease-out backwards;
+}
+
+.posts-list > li:nth-child(1) { animation-delay: 0.1s; }
+.posts-list > li:nth-child(2) { animation-delay: 0.2s; }
+.posts-list > li:nth-child(3) { animation-delay: 0.3s; }
+.posts-list > li:nth-child(4) { animation-delay: 0.4s; }
+.posts-list > li:nth-child(5) { animation-delay: 0.5s; }
 
 .post-preview {
   display: block;
@@ -442,11 +549,17 @@ address {
 }
 
 .post-read-more {
-  display: block;
+  display: inline-block;
   margin-top: var(--space-2);
   font-size: var(--body-size);
   color: var(--color-accent);
   text-decoration: underline;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.post-read-more:hover {
+  transform: translateX(4px);
+  opacity: 0.8;
 }
 
 /* ---- Blog Post ----------------------------------------------------------- */
@@ -457,10 +570,16 @@ address {
 }
 
 .blog-back-link {
-  display: block;
+  display: inline-block;
   font-size: var(--body-size);
   color: var(--color-accent);
   text-decoration: underline;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.blog-back-link:hover {
+  transform: translateX(-4px);
+  opacity: 0.8;
 }
 
 .blog-divider {
@@ -484,6 +603,7 @@ address {
 .post-content {
   font-size: var(--body-size);
   line-height: var(--leading-normal);
+  animation: fade-in 0.5s ease-out 0.1s backwards;
 }
 
 .post-content p {
@@ -506,6 +626,11 @@ address {
 .post-content a {
   color: var(--color-accent);
   text-decoration: underline;
+  transition: opacity 0.2s ease;
+}
+
+.post-content a:hover {
+  opacity: 0.7;
 }
 
 .post-content ul,

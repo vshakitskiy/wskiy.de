@@ -1,8 +1,10 @@
 import app/blog
 import app/page
+import app/rss
 import filepath
 import gleam/io
 import gleam/list
+import gleam/string
 import lustre/element.{type Element}
 import simplifile
 import temporary
@@ -57,7 +59,7 @@ fn build(posts: List(blog.Post)) -> Result(Nil, simplifile.FileError) {
     )
   })
 
-  // TODO: handle rss
+  build_rss(temporary_directory, posts)
 
   let assert Ok(_nil) =
     simplifile.copy_directory(at: asset_directory, to: temporary_directory)
@@ -82,6 +84,19 @@ fn build_page(
     element.to_document_string(element)
     |> simplifile.write(to: filepath.join(directory, filename))
     as { "failed to create " <> filename <> "!" }
+
+  Nil
+}
+
+fn build_rss(directory: String, posts: List(blog.Post)) -> Nil {
+  let public_posts = list.filter(posts, fn(post) { post.public })
+
+  let assert Ok(_nil) =
+    rss.from_posts(public_posts)
+    |> element.to_string()
+    |> string.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", _)
+    |> simplifile.write(to: filepath.join(directory, "feed.xml"))
+    as "failed to create feed.xml!"
 
   Nil
 }
