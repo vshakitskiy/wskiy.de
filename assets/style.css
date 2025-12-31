@@ -203,6 +203,11 @@ address {
   font-style: normal;
 }
 
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
 /* ---- Layout -------------------------------------------------------------- */
 
 .main {
