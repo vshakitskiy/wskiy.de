@@ -1,14 +1,14 @@
 import frontmatter
 import gleam/dict
 import gleam/list
-import gleam/option.{type Option, None, Some}
+import gleam/option
 import gleam/result
 import gleam/string
-import lustre/attribute as attr
-import lustre/element.{type Element}
+import lustre/attribute
+import lustre/element
 import lustre/element/html
 import mork
-import mork/document.{type Block, type Inline}
+import mork/document
 import simplifile
 import tom
 
@@ -41,15 +41,12 @@ type Metadata {
   )
 }
 
-// --- Parsing ----------------------------------------------------------------
-
 pub fn parse_posts(directory: String) -> Result(List(Post), PostError) {
   use files <- result.try(
     simplifile.read_directory(directory) |> result.map_error(FileError),
   )
 
-  files
-  |> list.filter(string.ends_with(_, ".md"))
+  list.filter(files, string.ends_with(_, ".md"))
   |> list.try_map(parse_post(directory, _))
 }
 
@@ -65,8 +62,8 @@ pub fn parse_post(
   let extracted = frontmatter.extract(raw)
 
   use front <- result.try(case extracted.frontmatter {
-    Some(f) -> Ok(f)
-    None -> Error(MissingFrontmatter)
+    option.Some(f) -> Ok(f)
+    option.None -> Error(MissingFrontmatter)
   })
 
   use metadata <- result.try(parse_metadata(front))
@@ -114,13 +111,11 @@ fn get_field(
   |> result.try(next)
 }
 
-// --- Rendering --------------------------------------------------------------
-
-pub fn render(post: Post) -> List(Element(a)) {
+pub fn render(post: Post) -> List(element.Element(a)) {
   list.map(post.content.blocks, render_block)
 }
 
-fn render_block(block: Block) -> Element(a) {
+fn render_block(block: document.Block) -> element.Element(a) {
   case block {
     document.Paragraph(raw: _, inlines:) ->
       html.p([], list.map(inlines, render_inline))
@@ -142,7 +137,7 @@ fn render_block(block: Block) -> Element(a) {
     document.ThematicBreak -> html.hr([])
 
     document.HtmlBlock(raw:) ->
-      html.div([attr.class("html-block")], [html.text(raw)])
+      html.div([attribute.class("html-block")], [html.text(raw)])
 
     document.Table(..) -> panic as "Table not implemented"
 
@@ -150,11 +145,15 @@ fn render_block(block: Block) -> Element(a) {
   }
 }
 
-fn render_list_item(item: document.ListItem) -> Element(a) {
+fn render_list_item(item: document.ListItem) -> element.Element(a) {
   html.li([], list.map(item.blocks, render_block))
 }
 
-fn render_heading(level: Int, id: String, inlines: List(Inline)) -> Element(a) {
+fn render_heading(
+  level: Int,
+  id: String,
+  inlines: List(document.Inline),
+) -> element.Element(a) {
   let heading = case level {
     1 -> html.h1
     2 -> html.h2
@@ -170,23 +169,29 @@ fn render_heading(level: Int, id: String, inlines: List(Inline)) -> Element(a) {
     id, _ -> id
   }
 
-  heading([attr.id(id)], list.map(inlines, render_inline))
+  heading([attribute.id(id)], list.map(inlines, render_inline))
 }
 
-fn render_code_block(lang: Option(String), text: String) -> Element(a) {
+fn render_code_block(
+  lang: option.Option(String),
+  text: String,
+) -> element.Element(a) {
   let #(lang_class, lang_attr) = case lang {
-    Some(l) -> #("hljs language-" <> l, l)
-    None -> #("", "")
+    option.Some(l) -> #("hljs language-" <> l, l)
+    option.None -> #("", "")
   }
 
   html.pre([], [
-    html.code([attr.class(lang_class), attr.attribute("data-lang", lang_attr)], [
-      html.text(string.trim(text)),
-    ]),
+    html.code(
+      [attribute.class(lang_class), attribute.attribute("data-lang", lang_attr)],
+      [
+        html.text(string.trim(text)),
+      ],
+    ),
   ])
 }
 
-fn render_inline(inline: Inline) -> Element(a) {
+fn render_inline(inline: document.Inline) -> element.Element(a) {
   case inline {
     document.Text(text) -> html.text(text)
 
@@ -217,7 +222,7 @@ fn render_inline(inline: Inline) -> Element(a) {
     document.InlineHtml(tag:, attrs:, children:) ->
       element.element(
         tag,
-        list.map(dict.to_list(attrs), fn(p) { attr.attribute(p.0, p.1) }),
+        list.map(dict.to_list(attrs), fn(p) { attribute.attribute(p.0, p.1) }),
         list.map(children, render_inline),
       )
 
@@ -225,7 +230,7 @@ fn render_inline(inline: Inline) -> Element(a) {
     document.SoftBreak -> html.text("\n")
 
     document.RawHtml(raw) ->
-      html.span([attr.class("raw-html")], [html.text(raw)])
+      html.span([attribute.class("raw-html")], [html.text(raw)])
 
     document.RefImage(..) -> panic as "RefImage not implemented"
     document.RefLink(..) -> panic as "RefLink not implemented"
@@ -236,19 +241,29 @@ fn render_inline(inline: Inline) -> Element(a) {
   }
 }
 
-fn render_link(children: List(Element(a)), href: String) -> Element(a) {
+fn render_link(
+  children: List(element.Element(a)),
+  href: String,
+) -> element.Element(a) {
   let target = case href {
     "http://" <> _ | "https://" <> _ -> "_blank"
     _ -> ""
   }
 
   html.a(
-    [attr.href(href), attr.target(target), attr.rel("noopener noreferrer")],
+    [
+      attribute.href(href),
+      attribute.target(target),
+      attribute.rel("noopener noreferrer"),
+    ],
     children,
   )
 }
 
-fn render_image(text: List(Inline), dest: document.Destination) -> Element(a) {
+fn render_image(
+  text: List(document.Inline),
+  dest: document.Destination,
+) -> element.Element(a) {
   let alt =
     list.map(text, fn(i) {
       case i {
@@ -258,7 +273,7 @@ fn render_image(text: List(Inline), dest: document.Destination) -> Element(a) {
     })
     |> string.join("")
 
-  html.img([attr.src(dest_to_href(dest)), attr.alt(alt)])
+  html.img([attribute.src(dest_to_href(dest)), attribute.alt(alt)])
 }
 
 fn dest_to_href(dest: document.Destination) -> String {
@@ -267,8 +282,6 @@ fn dest_to_href(dest: document.Destination) -> String {
     document.Anchor(id:) -> "#" <> id
   }
 }
-
-// --- Utilities --------------------------------------------------------------
 
 fn slugify(text: String) -> String {
   let allowed = "abcdefghijklmnopqrstuvwxyz0123456789-_"

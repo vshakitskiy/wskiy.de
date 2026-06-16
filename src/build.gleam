@@ -5,15 +5,22 @@ import filepath
 import gleam/io
 import gleam/list
 import gleam/string
-import lustre/element.{type Element}
+import lustre/element
 import simplifile
 import temporary
 
-const out_directory: String = "dist"
+const out_directory = "dist"
 
-const asset_directory: String = "assets"
+const asset_directory = "assets"
 
-const posts_directory: String = "writing"
+const posts_directory = "writing"
+
+const pages = [
+  #(page.home, "index.html"),
+  #(page.my_work, "work.html"),
+  #(page.contact, "contact.html"),
+  #(page.not_found, "404.html"),
+]
 
 pub fn main() -> Nil {
   let assert Ok(posts) = blog.parse_posts(posts_directory)
@@ -24,22 +31,12 @@ pub fn main() -> Nil {
   io.println("Success!")
 }
 
-const pages = [
-  #(page.home, "index.html"),
-  #(page.my_work, "work.html"),
-  #(page.contact, "contact.html"),
-  #(page.not_found, "404.html"),
-]
-
 fn build(posts: List(blog.Post)) -> Result(Nil, simplifile.FileError) {
   use temporary_directory <- temporary.create(temporary.directory())
 
   list.map(pages, fn(page) {
-    build_page(
-      directory: temporary_directory,
-      element: page.0(),
-      filename: page.1,
-    )
+    let #(element, filename) = page
+    build_page(directory: temporary_directory, element: element(), filename:)
   })
 
   build_page(
@@ -51,6 +48,7 @@ fn build(posts: List(blog.Post)) -> Result(Nil, simplifile.FileError) {
   let assert Ok(_nil) =
     simplifile.create_directory(filepath.join(temporary_directory, "blog"))
     as "failed to create blog directory!"
+
   list.each(posts, fn(post) {
     build_page(
       directory: filepath.join(temporary_directory, "blog"),
@@ -64,9 +62,11 @@ fn build(posts: List(blog.Post)) -> Result(Nil, simplifile.FileError) {
   let assert Ok(_nil) =
     simplifile.copy_directory(at: asset_directory, to: temporary_directory)
     as "failed to copy assets!"
+
   let _ = simplifile.delete(out_directory)
   let assert Ok(_nil) = simplifile.create_directory(out_directory)
     as "failed to create out directory!"
+
   let assert Ok(_nil) =
     simplifile.copy_directory(at: temporary_directory, to: out_directory)
     as "failed to copy temporary directory into output directory!"
@@ -76,7 +76,7 @@ fn build(posts: List(blog.Post)) -> Result(Nil, simplifile.FileError) {
 
 fn build_page(
   directory directory: String,
-  element element: Element(a),
+  element element: element.Element(a),
   filename filename: String,
 ) -> Nil {
   let assert Ok(_nil) =

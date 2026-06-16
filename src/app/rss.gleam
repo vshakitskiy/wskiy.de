@@ -1,14 +1,14 @@
-import app/blog.{type Post}
+import app/blog
 import gleam/int
 import gleam/list
 import gleam/order
 import gleam/result
 import gleam/string
 import lustre/attribute
-import lustre/element.{type Element, element}
+import lustre/element.{element as tag}
 import lustre/element/html
 
-pub fn from_posts(posts: List(Post)) -> Element(a) {
+pub fn from_posts(posts: List(blog.Post)) -> element.Element(a) {
   let latest_date = case posts {
     [first, ..rest] ->
       list.fold(rest, first.date, fn(latest, post) {
@@ -20,31 +20,31 @@ pub fn from_posts(posts: List(Post)) -> Element(a) {
     [] -> ""
   }
 
-  element("rss", [attribute.attribute("version", "2.0")], [
-    element("channel", [], [
-      element("title", [], [html.text("wskiy.de posts feed")]),
+  tag("rss", [attribute.attribute("version", "2.0")], [
+    tag("channel", [], [
+      tag("title", [], [html.text("wskiy.de posts feed")]),
       link("https://wskiy.de"),
-      element("description", [], [
+      tag("description", [], [
         html.text("My writings about programming and stuff."),
       ]),
-      element("language", [], [html.text("en")]),
-      element("pubDate", [], [html.text(to_rss_date(latest_date))]),
+      tag("language", [], [html.text("en")]),
+      tag("pubDate", [], [html.text(to_rss_date(latest_date))]),
       ..list.map(posts, to_item)
     ]),
   ])
 }
 
-fn to_item(post: Post) -> Element(a) {
-  element("item", [], [
-    element("title", [], [html.text(post.title)]),
+fn to_item(post: blog.Post) -> element.Element(a) {
+  tag("item", [], [
+    tag("title", [], [html.text(post.title)]),
     link("https://wskiy.de/blog/" <> post.slug),
-    element("description", [], [html.text(post.description)]),
-    element("author", [], [html.text("vshakitskiy@gmail.com")]),
-    element("pubDate", [], [html.text(to_rss_date(post.date))]),
+    tag("description", [], [html.text(post.description)]),
+    tag("author", [], [html.text("vshakitskiy@gmail.com")]),
+    tag("pubDate", [], [html.text(to_rss_date(post.date))]),
   ])
 }
 
-fn link(url: String) -> Element(a) {
+fn link(url: String) -> element.Element(a) {
   element.unsafe_raw_html("", "link", [], url)
 }
 
@@ -83,32 +83,23 @@ fn to_short_month(month: String) -> String {
 }
 
 fn compare_dates(a: String, b: String) -> Bool {
-  let a_parts = parse_date(a)
-  let b_parts = parse_date(b)
+  let #(ay, am, ad) = parse_date(a)
+  let #(by, bm, bd) = parse_date(b)
 
-  case a_parts, b_parts {
-    #(ay, am, ad), #(by, bm, bd) -> {
-      case int.compare(ay, by) {
+  case int.compare(ay, by) {
+    order.Gt -> True
+    order.Lt -> False
+    order.Eq ->
+      case int.compare(am, bm) {
         order.Gt -> True
         order.Lt -> False
-        order.Eq ->
-          case int.compare(am, bm) {
-            order.Gt -> True
-            order.Lt -> False
-            order.Eq -> ad > bd
-          }
+        order.Eq -> ad > bd
       }
-    }
   }
 }
 
 fn parse_date(date: String) -> #(Int, Int, Int) {
-  let parts =
-    date
-    |> string.replace(",", "")
-    |> string.split(" ")
-
-  case parts {
+  case string.replace(date, ",", "") |> string.split(" ") {
     [day, month, year] -> {
       let day = int.parse(day) |> result.unwrap(1)
       let year = int.parse(year) |> result.unwrap(2000)

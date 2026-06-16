@@ -1,25 +1,25 @@
-import app/data.{type Tag}
-import lustre/attribute as attr
-import lustre/element.{type Element}
+import app/data
+import lustre/attribute
+import lustre/element
 import lustre/element/html
 
-pub fn tag(t: Tag) -> Element(a) {
+pub fn tag(t: data.Tag) -> element.Element(a) {
   html.a(
     [
-      attr.class("tag"),
-      attr.href(t.link),
-      attr.target("_blank"),
-      attr.rel("noopener noreferrer"),
+      attribute.class("tag"),
+      attribute.href(t.link),
+      attribute.target("_blank"),
+      attribute.rel("noopener noreferrer"),
     ],
     [html.text("#" <> t.name)],
   )
 }
 
-pub fn icon(src: String) -> Element(a) {
+pub fn icon(src: String) -> element.Element(a) {
   html.img([
-    attr.src(src),
-    attr.alt(""),
-    attr.attribute("aria-hidden", "true"),
-    attr.class("icon"),
+    attribute.src(src),
+    attribute.alt(""),
+    attribute.attribute("aria-hidden", "true"),
+    attribute.class("icon"),
   ])
 }
